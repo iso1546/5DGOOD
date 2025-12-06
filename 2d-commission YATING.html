@@ -409,9 +409,11 @@
           if (window.innerWidth > 900) return;
 
           const target = e.target;
+          // 防呆：可能會點到文字節點（沒有 tagName）
+          const tag = target.tagName ? target.tagName.toLowerCase() : "";
 
           // 如果點到的是 dropdown 裡的 a，就讓它正常跳頁
-          if (target.tagName.toLowerCase() === "a" && !target.classList.contains("nav-main-link")) {
+          if (tag === "a" && !target.classList.contains("nav-main-link")) {
             return;
           }
 
