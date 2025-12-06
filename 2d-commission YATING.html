@@ -343,27 +343,32 @@
       .nav-item {
         padding: 16px 20px;
         border-bottom: 1px solid #ddd;
+        cursor: default; /* 手機上不用點它展開，全部展開就好 */
       }
 
-      /* 手機版 dropdown：點 nav-item 才展開 */
+      /* 手機版 dropdown：直接全部展開成一般區塊 */
       .dropdown {
         position: static;
+        top: auto;
+        left: auto;
         transform: none;
         opacity: 1;
         pointer-events: auto;
         border: none;
         border-radius: 0;
-        padding: 10px 20px;
+        padding: 10px 0 0 0;
+        margin-top: 8px;
         flex-direction: column;
+        gap: 12px;
         background: #fff;
         display: block;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.25s ease;
+        box-shadow: none;
       }
 
-      .nav-item.open .dropdown {
-        max-height: 600px; /* 足夠放下所有選項即可 */
+      .dropdown-column {
+        min-width: auto;
+        padding-left: 8px;
+        padding-right: 8px;
       }
 
       main {
@@ -390,38 +395,13 @@
     document.addEventListener("DOMContentLoaded", () => {
       const hamburger = document.querySelector(".hamburger");
       const navMenu = document.querySelector(".nav-menu");
-      const navItems = document.querySelectorAll(".nav-item");
 
-      // 漢堡按鈕：展開/收起整個 nav-menu
+      // ✅ 只保留「漢堡打開 / 關閉整個 nav-menu」
       if (hamburger && navMenu) {
         hamburger.addEventListener("click", () => {
           navMenu.classList.toggle("show");
         });
       }
-
-      // 手機版：點 nav-item 展開 / 收起 dropdown
-      navItems.forEach(item => {
-        const dropdown = item.querySelector(".dropdown");
-        if (!dropdown) return; // 沒 dropdown 的（關於工作室）直接略過
-
-        item.addEventListener("click", (e) => {
-          // 只在手機寬度時啟用這個邏輯
-          if (window.innerWidth > 900) return;
-
-          const target = e.target;
-          // 防呆：可能會點到文字節點（沒有 tagName）
-          const tag = target.tagName ? target.tagName.toLowerCase() : "";
-
-          // 如果點到的是 dropdown 裡的 a，就讓它正常跳頁
-          if (tag === "a" && !target.classList.contains("nav-main-link")) {
-            return;
-          }
-
-          // 點到 nav-item 本身（例如「委託列表」字）時，只展開/收起，不跳頁
-          e.preventDefault();
-          item.classList.toggle("open");
-        });
-      });
     });
   </script>
 
