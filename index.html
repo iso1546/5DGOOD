@@ -10,7 +10,6 @@
   <title>五D卡好工作室 | 官方網站</title>
 
   <style>
-    
     * {
       box-sizing: border-box;
       margin: 0;
@@ -24,9 +23,7 @@
       color: #111;
     }
 
-    /* ======================
-       電腦版主版面（Desktop）
-       ====================== */
+    /* ====================== Header / 導覽列（桌機） ====================== */
     header {
       border-bottom: 3px solid #000;
       padding: 16px 60px 0;
@@ -41,23 +38,34 @@
     }
 
     .logo {
-  display: flex;
-  align-items: center;
-}
+      display: flex;
+      align-items: center;
+    }
 
-.logo img {
-  height: 70px;   /* ← 想變大/變小改這裡 */
-  width: auto;    /* 自動等比縮放 */
-  display: block;
-}
+    .logo img {
+      height: 70px;
+      width: auto;
+      display: block;
+    }
 
-
-    /* 電腦版選單 */
     .nav-menu {
       display: flex;
       gap: 45px;
       font-size: 16px;
       position: relative;
+      align-items: flex-end;
+    }
+
+    /* 桌機版實際顯示的那一塊 */
+    .nav-menu-desktop {
+      display: flex;
+      gap: 45px;
+      align-items: flex-end;
+    }
+
+    /* 手機版專用容器（預設隱藏） */
+    .nav-menu-mobile {
+      display: none;
     }
 
     .nav-item {
@@ -67,7 +75,15 @@
       white-space: nowrap;
     }
 
-    /* active 底線 */
+    .nav-main-link {
+      text-decoration: none;
+      color: #000;
+    }
+
+    .nav-main-link:hover {
+      text-decoration: underline;
+    }
+
     .active::after {
       content: "";
       position: absolute;
@@ -78,7 +94,7 @@
       background: black;
     }
 
-    /* 下拉選單（桌機） */
+    /* 桌機版 dropdown：滑過才出現 */
     .dropdown {
       position: absolute;
       top: 80%;
@@ -95,25 +111,13 @@
       transition: 0.2s ease;
       z-index: 999;
     }
-    .dropdown-link {
-    display: block;
-    margin-top: 10px;
-    text-decoration: none;
-    color: #000;
-   }
-
-   .dropdown-link:hover {
-   text-decoration: underline;
-  }
-
 
     .nav-item:hover .dropdown,
-.nav-item .dropdown:hover {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(6px);
-}
-
+    .nav-item .dropdown:hover {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(6px);
+    }
 
     .dropdown-column {
       min-width: 130px;
@@ -142,9 +146,34 @@
       text-decoration: underline;
     }
 
-    /* ==============
-       主內容（桌機）
-       ============== */
+    .dropdown-link {
+      display: block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #000;
+    }
+
+    .dropdown-link:hover {
+      text-decoration: underline;
+    }
+
+    /* 漢堡（桌機隱藏） */
+    .hamburger {
+      width: 30px;
+      height: 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      display: none;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 100%;
+      height: 4px;
+      background: #000;
+    }
+
+    /* ====================== 主內容（桌機） ====================== */
     main {
       padding: 60px;
       display: flex;
@@ -152,434 +181,582 @@
     }
 
     .about-box {
-  width:100%;
-  max-width: 1185px;
-  background: #969696;
-  border-radius: 26px;
-  padding: 80px;
-  position: relative;
-  min-height: 250px;
-
-  margin-top: 60px;     /* ⭐ 整個區塊下移的位置 */
-}
-
+      width: 100%;
+      max-width: 1185px;
+      background: #969696;
+      border-radius: 26px;
+      padding: 80px;
+      position: relative;
+      min-height: 250px;
+      margin-top: 60px;
+    }
 
     .title-wrap {
-  position: absolute;
-  top: -50px;      /* 讓整個群組往上靠，符合你圖片 */
-  left:-5px;      /* 與圖片一致 */
-  display: flex;
-  flex-direction: column;   /* ⬅ 總關鍵：改成直排，就會上下貼齊 */
-  align-items: flex-start;  /* 左對齊 */
-  gap: 10px;                /* 兩個膠囊垂直間距 */
-}
+      position: absolute;
+      top: -50px;
+      left: -5px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
 
+    .title-pill {
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      display: inline-block;
+      color: inherit;
+    }
 
-   
-/* 標題容器 */
-.title-pill {
-  background: none;
-  padding: 0;
-  border-radius: 0;
-  display: inline-block;
-  color: inherit;
-}
-
-/* 標題圖片大小（桌機版） */
-.title-image img {
-  display: block;
-  height: 100px;    /* 想大/小就調這裡 */
-  width: auto;
-}
-
-
-
-   
+    .title-image img {
+      display: block;
+      height: 100px;
+      width: auto;
+    }
 
     .date-pill {
-  background: #000;
-  color: #fff;
-  padding: 1px 80px;
-  border-radius: 50px;
-  display: inline-block;
-  margin-top: 5px;   /* 日期往下 20px */
-  margin-left: 200px;  /* 日期往右 60px */
-  font-size: 35px;
-  font-weight: 900;
+      background: #000;
+      color: #fff;
+      padding: 1px 80px;
+      border-radius: 50px;
+      display: inline-block;
+      margin-top: 5px;
+      margin-left: 200px;
+      font-size: 35px;
+      font-weight: 900;
+      font-family: 'Anton', sans-serif;
+    }
 
-  font-family: 'Anton',sans-serif;
-  
-}
+    .about-content {
+      margin-top: 120px;
+      font-size: 30px;
+      line-height: 1.8;
+      font-weight: 700;
+    }
 
+    .about-content p {
+      margin: 0 0 15px;
+      font-family: 'Noto Sans HK', sans-serif;
+    }
 
-/* 整塊文字往下移多少 = 改這裡 */
-.about-content {
-  margin-top: 120px;   
-  font-size: 30px;
-  line-height: 1.8;
-  font-weight: 700;
-}
+    /* 創作者區塊（灰底外面） */
+    .creator-title {
+      text-align: center;
+      font-size: 38px;
+      font-weight: 900;
+      margin-top: 40px;
+      margin-bottom: 30px;
+      font-family: 'Noto Sans TC', sans-serif;
+      letter-spacing: 2px;
+    }
 
-/* 真正套字型在每一行文字 */
-.about-content p {
-  margin: 0 0 15px;               /* 每行段落的下方間距 */
-  font-family: 'Noto Sans HK', sans-serif;
-}
+    .creator-section {
+      margin: 60px auto;
+      max-width: 1200px;
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+    }
 
-/* 創作者圓形頭像區（放灰色框外） */
-.creator-section {
-  margin: 60px auto;
-  max-width: 1200px;
-  display: flex;
-  justify-content: center;
-  gap: 80px;
-}
+    .creator-link {
+      text-decoration: none;
+      color: inherit;
+      display: inline-block;
+    }
 
-/* 新增：整塊都可以點、不要底線 */
-.creator-link {
-  text-decoration: none;
-  color: inherit;
-  display: inline-block;
-}
+    .creator {
+      text-align: center;
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 20px;
+      position: relative;
+      overflow: visible;
+    }
 
-.creator {
-  text-align: center;
-  font-family: 'ZCOOL KuaiLe', sans-serif;
-  font-size: 20px;
-  position: relative;
-  overflow: visible;
-}
+    .creator img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      transition:
+        transform 0.3s ease,
+        border-radius 0.3s ease,
+        box-shadow 0.3s ease,
+        object-fit 0.3s ease,
+        background-color 0.3s ease;
+    }
 
+    .creator:hover img {
+      transform: scale(1.7);
+      border-radius: 16px;
+      object-fit: contain;
+      background-color: #ffffff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      z-index: 2;
+    }
 
-/* 頭像預設：小圓形、裁切 */
-.creator img {
-  width: 140px;
-  height: 140px;
-  object-fit: cover;     /* 正常狀態只顯示中間一部分 */
-  border-radius: 50%;
-  border: 4px solid #ffffff;
-  transition: 
-    transform 0.3s ease,
-    border-radius 0.3s ease,
-    box-shadow 0.3s ease,
-    object-fit 0.3s ease,
-    background-color 0.3s ease;
-}
+    /* ====================== 手機版 RWD：跟 2D 頁面同款多頁側邊選單 ====================== */
+    @media (max-width: 900px) {
 
-/* 滑鼠移上去：放大、改成看到整張圖片 */
-.creator:hover img {
-  transform: scale(1.7);   /* 放大倍率，可以自己改 1.5 ~ 1.8 */
-  border-radius: 16px;     /* 變成圓角矩形 */
-  object-fit: contain;     /* 改成顯示整張圖 */
-  background-color: #ffffff;  /* 多出的空白用黑色補，像預覽框 */
-  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.35);
-  z-index: 2;              /* 浮在其他元素上面 */
-}
-/* 創作者區大標題 */
-.creator-title {
-  text-align: center;
-  font-size: 38px;
-  font-weight: 900;
-  margin-top: 40px;
-  margin-bottom: 30px;
-  font-family: 'Noto Sans TC', sans-serif;
-  letter-spacing: 2px;
-}
+      header {
+        padding: 12px 20px;
+        position: relative;
+        z-index: 1000;
+      }
 
-.dropdown-bigtitle {
-  font-size: 15px;
-  font-weight: 900;
-  margin: 12px 0 6px;
-}
+      .navbar {
+        align-items: center;
+      }
 
+      /* 顯示漢堡 */
+      .hamburger {
+        display: flex;
+        margin-left: auto;
+      }
 
+      /* 桌機 nav 在手機藏起來 */
+      .nav-menu-desktop {
+        display: none;
+      }
 
+      /* nav-menu 把間距關掉，純容器而已 */
+      .nav-menu {
+        gap: 0;
+      }
 
-    /* ==========================================================
-       手機版（Mobile） 
-       ========================================================== */
-    @media (max-width: 768px) {
+      /* 手機專用全螢幕選單（多頁） */
+      .nav-menu-mobile {
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 64px; /* 大約 header 高度 */
+        bottom: 0;
+        background: #ffffff;
+        padding: 20px 18px 32px;
+        border-top: 2px solid #000;
+        z-index: 999;
+        flex-direction: column;
+      }
 
-  header {
-    padding: 12px 20px;
-  }
+      .nav-menu-mobile.show {
+        display: flex;
+      }
 
-  .navbar {
-    flex-wrap: wrap;
-  }
+      .mobile-menu-panel {
+        flex: 1;
+        display: none;
+        flex-direction: column;
+      }
 
-  .logo {
-    font-size: 26px;
-  }
+      .mobile-menu-panel.active {
+        display: flex;
+      }
 
-  .nav-menu {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background: #fff;
-    border-top: 2px solid #000;
-    margin-top: 10px;
-    padding: 20px 0;
-  }
+      /* 第一層主選單 */
+      .mobile-main-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
 
-  .nav-menu.show {
-    display: flex;
-  }
+      .mobile-main-list li {
+        font-size: 18px;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
 
-  .nav-item {
-    padding: 16px 20px;
-    border-bottom: 1px solid #ddd;
-  }
+      .mobile-main-button {
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-size: 18px;
+        padding: 0;
+        cursor: pointer;
+      }
 
-  .dropdown {
-    position: static;
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-    border: none;
-    border-radius: 0;
-    padding: 10px 20px;
-    flex-direction: column;
-    display: none;
-  }
+      .mobile-main-list a {
+        text-decoration: none;
+        color: #000;
+        font-size: 18px;
+        display: block;
+        width: 100%;
+      }
 
-  .nav-item.open .dropdown {
-    display: block;
-  }
+      /* 第二層子選單 header + body */
+      .mobile-menu-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
 
-  .hamburger {
-    width: 30px;
-    height: 24px;
-    flex-direction: column;
-    justify-content: space-between;
-    display: flex;
-    cursor: pointer;
-  }
+      .mobile-back {
+        border: none;
+        background: none;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 4px 8px 4px 0;
+      }
 
-  .hamburger span {
-    width: 100%;
-    height: 4px;
-    background: #000;
-  }
+      .mobile-menu-header-title {
+        font-size: 18px;
+        font-weight: 900;
+      }
 
-  main {
-    padding: 20px;
-  }
+      .mobile-menu-body {
+        flex: 1;
+        overflow-y: auto;
+      }
 
-  .about-box {
-    padding: 30px 20px;
-    min-height: 300px;
-  }
+      .mobile-section-title {
+        font-size: 16px;
+        margin: 14px 0 6px;
+        font-weight: 900;
+      }
 
-  /* 手機版：標題區塊改成在灰底裡，上下排 */
-  .title-wrap {
-    position: relative;
-    top: 0;
-    left: 0;
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
+      .mobile-link-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 10px;
+      }
 
-  /* 手機版標題圖片：縮小一點 */
-  .title-image img {
-    height: 60px;
-    width: auto;
-  }
+      .mobile-link-list li a {
+        display: block;
+        padding: 4px 0;
+        font-size: 14px;
+        text-decoration: none;
+        color: #000;
+      }
 
-  /* 手機版日期：用一樣的 Anton 字體，但縮小、移到左邊一點 */
-  .date-pill {
-    background: #000;
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 50px;
-    display: inline-block;
-    margin-top: 4px;
-    margin-left: 12px;
-    font-size: 22px;
-    font-weight: 900;
-    font-family: 'Anton', sans-serif;
-  }
-}
+      .mobile-link-list li a:hover {
+        text-decoration: underline;
+      }
 
+      /* ====== 首頁自己的 RWD（灰框 + 文字） ====== */
+      main {
+        padding: 20px;
+      }
+
+      .about-box {
+        padding: 30px 20px;
+        min-height: 300px;
+        margin-top: 40px;
+      }
+
+      .title-wrap {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .title-image img {
+        height: 60px;
+        width: auto;
+      }
+
+      .date-pill {
+        background: #000;
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 50px;
+        display: inline-block;
+        margin-top: 4px;
+        margin-left: 12px;
+        font-size: 22px;
+        font-weight: 900;
+        font-family: 'Anton', sans-serif;
+      }
+
+      .about-content {
+        margin-top: 10px;
+        font-size: 20px;
+      }
+
+      .creator-section {
+        flex-direction: column;
+        gap: 32px;
+        align-items: center;
+      }
+    }
   </style>
 
-  <!-- 手機版 JS（控制漢堡選單） -->
+  <!-- 手機版 JS（跟 2D 頁面一樣的多頁選單邏輯） -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const hamburger = document.querySelector(".hamburger");
-      const navMenu = document.querySelector(".nav-menu");
-      const navItems = document.querySelectorAll(".nav-item");
+      const mobileMenu = document.querySelector(".nav-menu-mobile");
+      const panels = document.querySelectorAll(".mobile-menu-panel");
 
-      hamburger.addEventListener("click", () => {
-        navMenu.classList.toggle("show");
-      });
+      // 顯示指定的 panel（main / sub-commission / sub-creators）
+      function showPanel(id) {
+        panels.forEach(p => {
+          p.classList.toggle("active", p.id === id);
+        });
+      }
 
-      navItems.forEach(item => {
-        item.addEventListener("click", () => {
-          item.classList.toggle("open");
+      if (mobileMenu && panels.length > 0) {
+        showPanel("mobile-main-menu");
+      }
+
+      // 漢堡：打開 / 關閉整個手機選單
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener("click", () => {
+          const isOpen = mobileMenu.classList.toggle("show");
+          if (isOpen) {
+            showPanel("mobile-main-menu");
+          }
+        });
+      }
+
+      // 第一層：委託列表 / 創作者列表 按鈕 → 進入對應子選單
+      document.querySelectorAll(".mobile-main-button[data-target]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          if (targetId) {
+            showPanel(targetId);
+          }
         });
       });
+
+      // 子選單上的返回按鈕 → 回到主選單
+      document.querySelectorAll(".mobile-back").forEach(btn => {
+        btn.addEventListener("click", () => {
+          showPanel("mobile-main-menu");
+        });
+      });
+
+      // 點任何子選單裡的連結 → 關掉選單（自然跳頁）
+      if (mobileMenu) {
+        mobileMenu.querySelectorAll("a").forEach(a => {
+          a.addEventListener("click", () => {
+            mobileMenu.classList.remove("show");
+          });
+        });
+      }
     });
   </script>
 </head>
 
 <body>
 
-  <!-- ==================
-       Header 導覽列
-       ================== -->
+  <!-- ================== Header 導覽列 ================== -->
   <header>
     <div class="navbar">
-
       <div class="logo">
-  <img src="image/logo.png" alt="五D卡好工作室 Logo">
-</div>
+        <a href="index.html">
+          <img src="image/logo.png" alt="五D卡好工作室 Logo">
+        </a>
+      </div>
 
-
-      <!-- 漢堡選單（手機版） -->
+      <!-- 漢堡（手機用） -->
       <div class="hamburger">
         <span></span><span></span><span></span>
       </div>
 
-      <!-- 選單 -->
- <div class="nav-menu">
+      <div class="nav-menu">
 
-      <!-- 1. 委託列表 -->
-      <div class="nav-item">
-        委託列表
-        <div class="dropdown">
-          <!-- 2D -->
-          <div class="dropdown-column">
-            <div class="dropdown-title">2D</div>
+        <!-- ========= 桌機版選單（跟原本內容一樣） ========= -->
+        <div class="nav-menu-desktop">
+          <!-- 1. 委託列表 -->
+          <div class="nav-item">
+            委託列表
+            <div class="dropdown">
+              <!-- 2D -->
+              <div class="dropdown-column">
+                <div class="dropdown-title">2D</div>
 
-            <!-- 繪圖委託：去 2d-commission.html -->
-            <a href="2d-commission.html" class="dropdown-title dropdown-link">繪圖委託</a>
-            <div class="dropdown-list">
-              <a href="2d-commission.html#fullbody-ohuman">立繪</a>
-              <a href="2d-commission.html#cloth">服設</a>
-              <a href="2d-commission.html#surprise">驚喜包</a>
-              <a href="2d-commission.html#halfbody">半身</a>
-              <a href="2d-commission.html#chibi">Q版</a>
-              <a href="2d-commission.html#head post">頭像</a>
-              <a href="2d-commission.html#poster">海報</a>
-              <a href="2d-commission.html#bg">大型場景插圖</a>
-            </div>
+                <a href="2d-commission.html" class="dropdown-title dropdown-link">繪圖委託</a>
+                <div class="dropdown-list">
+                  <a href="2d-commission.html#fullbody-ohuman">立繪</a>
+                  <a href="2d-commission.html#cloth">服設</a>
+                  <a href="2d-commission.html#surprise">驚喜包</a>
+                  <a href="2d-commission.html#halfbody">半身</a>
+                  <a href="2d-commission.html#chibi">Q版</a>
+                  <a href="2d-commission.html#head post">頭像</a>
+                  <a href="2d-commission.html#poster">海報</a>
+                  <a href="2d-commission.html#bg">大型場景插圖</a>
+                </div>
 
-            <!-- 動畫委託：同一頁中的動畫區塊 -->
-            <a href="2d-commission.html#animation-group" class="dropdown-title dropdown-link">動畫委託</a>
-            <div class="dropdown-list">
-              <a href="2d-commission.html#spine">Spine</a>
-              <a href="2d-commission.html#pixel">像素</a>
+                <a href="2d-commission.html#animation-group" class="dropdown-title dropdown-link">動畫委託</a>
+                <div class="dropdown-list">
+                  <a href="2d-commission.html#spine">Spine</a>
+                  <a href="2d-commission.html#pixel">像素</a>
+                </div>
+              </div>
+
+              <!-- 3D -->
+              <div class="dropdown-column">
+                <div class="dropdown-title">3D</div>
+                <a href="3d-commission.html" class="dropdown-title dropdown-link">3D建模</a>
+                <div class="dropdown-list">
+                  <a href="3d-commission.html#model-group">3D作品區</a>
+                  <a href="3d-commission.html#anim3d-group">3D動畫區</a>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- 3D -->
-          <div class="dropdown-column">
-            <div class="dropdown-title">3D</div>
-            <a href="3d-commission.html" class="dropdown-title dropdown-link">3D建模</a>
-            <div class="dropdown-list">
-              <a href="3d-commission.html#model-group">3D作品區</a>
-              <a href="3d-commission.html#anim3d-group">3D動畫區</a>
+          <!-- 2. 創作者列表 -->
+          <div class="nav-item">
+            創作者列表
+            <div class="dropdown">
+              <div class="dropdown-column">
+                <div class="dropdown-title">2D</div>
+                <div class="dropdown-list">
+                  <a href="2d-commission YATING.html">飛天蘋果派</a>
+                </div>
+              </div>
+
+              <div class="dropdown-column">
+                <div class="dropdown-title">3D</div>
+                <div class="dropdown-list">
+                  <a href="3d-commission Sprite.html">雪碧</a>
+                  <a href="3d-commissioneko.html">Evrox KO</a>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- 3. 關於工作室 -->
+          <div class="nav-item">
+            <a href="index.html" class="nav-main-link">關於工作室</a>
           </div>
         </div>
-      </div>
 
-      <!-- 2. 創作者列表 -->
-      <div class="nav-item">
-        創作者列表
-        <div class="dropdown">
-          <div class="dropdown-column">
-            <div class="dropdown-title">2D</div>
-            <div class="dropdown-list">
-              <a href="2d-commission YATING.html">飛天蘋果派</a>
+        <!-- ========= 手機版選單（多頁式，跟 2D 同款） ========= -->
+        <div class="nav-menu-mobile">
+
+          <!-- 第一頁：主選單 -->
+          <div class="mobile-menu-panel active" id="mobile-main-menu">
+            <ul class="mobile-main-list">
+              <li>
+                <button class="mobile-main-button" data-target="mobile-sub-commission">委託列表</button>
+              </li>
+              <li>
+                <button class="mobile-main-button" data-target="mobile-sub-creators">創作者列表</button>
+              </li>
+              <li>
+                <a href="index.html">關於工作室</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 第二頁：委託列表 -->
+          <div class="mobile-menu-panel" id="mobile-sub-commission">
+            <div class="mobile-menu-header">
+              <button class="mobile-back">←</button>
+              <span class="mobile-menu-header-title">委託列表</span>
+            </div>
+            <div class="mobile-menu-body">
+              <div class="mobile-section-title">2D 繪圖 / 動畫</div>
+              <ul class="mobile-link-list">
+                <li><a href="2d-commission.html">繪圖委託（總覽）</a></li>
+                <li><a href="2d-commission.html#fullbody-ohuman">立繪</a></li>
+                <li><a href="2d-commission.html#cloth">服設</a></li>
+                <li><a href="2d-commission.html#surprise">驚喜包</a></li>
+                <li><a href="2d-commission.html#halfbody">半身</a></li>
+                <li><a href="2d-commission.html#chibi">Q版</a></li>
+                <li><a href="2d-commission.html#head post">頭像</a></li>
+                <li><a href="2d-commission.html#poster">海報</a></li>
+                <li><a href="2d-commission.html#bg">大型場景插圖</a></li>
+                <li><a href="2d-commission.html#animation-group">動畫委託（總覽）</a></li>
+                <li><a href="2d-commission.html#spine">Spine 動畫</a></li>
+                <li><a href="2d-commission.html#pixel">像素動畫</a></li>
+              </ul>
+
+              <div class="mobile-section-title">3D 建模 / 動畫</div>
+              <ul class="mobile-link-list">
+                <li><a href="3d-commission.html">3D建模（總覽）</a></li>
+                <li><a href="3d-commission.html#model-group">3D作品區</a></li>
+                <li><a href="3d-commission.html#anim3d-group">3D動畫區</a></li>
+              </ul>
             </div>
           </div>
 
-          <div class="dropdown-column">
-            <div class="dropdown-title">3D</div>
-            <div class="dropdown-list">
-              <!-- 先都指到這一頁，有需要再拆獨立頁面 -->
-              <a href="3d-commission Sprite.html">雪碧</a>
-              <a href="3d-commissioneko.html">Evrox KO</a>
+          <!-- 第三頁：創作者列表 -->
+          <div class="mobile-menu-panel" id="mobile-sub-creators">
+            <div class="mobile-menu-header">
+              <button class="mobile-back">←</button>
+              <span class="mobile-menu-header-title">創作者列表</span>
+            </div>
+            <div class="mobile-menu-body">
+              <div class="mobile-section-title">2D 創作者</div>
+              <ul class="mobile-link-list">
+                <li><a href="2d-commission YATING.html">飛天蘋果派</a></li>
+              </ul>
+
+              <div class="mobile-section-title">3D 創作者</div>
+              <ul class="mobile-link-list">
+                <li><a href="3d-commission Sprite.html">雪碧</a></li>
+                <li><a href="3d-commissioneko.html">Evrox KO</a></li>
+              </ul>
             </div>
           </div>
+
         </div>
-      </div>
-
-      <!-- 3. 關於工作室：帶你回首頁 -->
-      <div class="nav-item">
-        <a href="index.html" class="nav-main-link">關於工作室</a>
       </div>
 
     </div>
-  </div>
-</header>
+  </header>
 
-  <!-- ==================
-       主內容
-       ================== -->
+  <!-- ================== 主內容 ================== -->
   <main>
     <div class="about-box">
       <div class="title-wrap">
-  <div class="title-pill title-image">
-    <img src="image/Adobe Express - file.png" alt="關於我們 About">
-  </div>
+        <div class="title-pill title-image">
+          <img src="image/Adobe Express - file.png" alt="關於我們 About">
+        </div>
+        <div class="date-pill">2025.11.09</div>
+      </div>
 
-  <div class="date-pill">2025.11.09</div>
-</div>
-
-        <div class="about-content">
-    <p>五D卡好工作室成立於 2025 年。</p>
-    <p>我們提供 2D、3D、美術、動畫服務。</p>
-    <p>致力於讓所有委託者獲得高品質與專業的作品。</p>
-  </div>
+      <div class="about-content">
+        <p>五D卡好工作室成立於 2025 年。</p>
+        <p>我們提供 2D、3D、美術、動畫服務。</p>
+        <p>致力於讓所有委託者獲得高品質與專業的作品。</p>
+      </div>
     </div>
   </main>
-  
-  
 
-</div>
-<!-- ⭐ 這裡新增：創作者圖片區塊（灰色框外） -->
-<h2 class="creator-title">創作者區</h2>
-<div class="creator-section">
+  <!-- 創作者區 -->
+  <h2 class="creator-title">創作者區</h2>
+  <div class="creator-section">
 
-  <!-- 飛天蘋果派：連到 2D 頁面 -->
-  <a href="2d-commission YATING.html" class="creator-link">
-    <div class="creator">
-      <img src="image/亞庭/飛天蘋果派.png" alt="飛天蘋果派"> 
-      <p>飛天蘋果派</p>
-      <p>2D</p>
-    </div>
-  </a>
+    <a href="2d-commission YATING.html" class="creator-link">
+      <div class="creator">
+        <img src="image/亞庭/飛天蘋果派.png" alt="飛天蘋果派">
+        <p>飛天蘋果派</p>
+        <p>2D</p>
+      </div>
+    </a>
 
-  <!-- 雪碧：連到 3D 頁面 -->
-  <a href="3d-commission Sprite.html" class="creator-link">
-    <div class="creator">
-      <img src="image/雪碧/雪碧.png" alt="雪碧">
-      <p>雪碧</p>
-      <p>3D</p>
-    </div>
-  </a>
+    <a href="3d-commission Sprite.html" class="creator-link">
+      <div class="creator">
+        <img src="image/雪碧/雪碧.png" alt="雪碧">
+        <p>雪碧</p>
+        <p>3D</p>
+      </div>
+    </a>
 
-  <!-- Evrox KO：連到 Evrox 專頁 -->
-  <a href="3d-commissioneko.html" class="creator-link">
-    <div class="creator">
-      <img src="image/Evrox KO/Evrox KO.png" alt="Evrox KO">
-      <p>Evrox KO</p>
-      <p>3D</p>
-    </div>
-  </a>
+    <a href="3d-commissioneko.html" class="creator-link">
+      <div class="creator">
+        <img src="image/Evrox KO/Evrox KO.png" alt="Evrox KO">
+        <p>Evrox KO</p>
+        <p>3D</p>
+      </div>
+    </a>
 
-</div>
-
-
-<script>
-  
-</script>
+  </div>
 
 </body>
 </html>

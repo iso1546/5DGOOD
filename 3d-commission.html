@@ -25,7 +25,7 @@
       color: #111;
     }
 
-    /* ================== 共用導覽列 ================== */
+    /* ================== Header / 導覽列（統一樣式） ================== */
     header {
       border-bottom: 3px solid #000;
       padding: 16px 60px 0;
@@ -55,6 +55,19 @@
       gap: 45px;
       font-size: 16px;
       position: relative;
+      align-items: flex-end;
+    }
+
+    /* 桌機版實際顯示的 nav */
+    .nav-menu-desktop {
+      display: flex;
+      gap: 45px;
+      align-items: flex-end;
+    }
+
+    /* 手機版多頁選單容器（預設隱藏） */
+    .nav-menu-mobile {
+      display: none;
     }
 
     .nav-item {
@@ -83,7 +96,7 @@
       background: black;
     }
 
-    /* 下拉 */
+    /* 下拉（桌機） */
     .dropdown {
       position: absolute;
       top: 80%;
@@ -146,6 +159,22 @@
       text-decoration: underline;
     }
 
+    /* 手機漢堡按鈕 */
+    .hamburger {
+      width: 30px;
+      height: 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      display: none;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 100%;
+      height: 4px;
+      background: #000;
+    }
+
     /* ================== 主版面 ================== */
 
     main {
@@ -155,7 +184,6 @@
     .main-layout {
       max-width: 1200px;
       margin: 0 auto 80px;
-      /* 只保留單欄作品展示，不再分左右 */
     }
 
     .page-container {
@@ -174,7 +202,6 @@
       margin-bottom: 30px;
     }
 
-    /* ===== 區塊標題 / 區塊排版（跟 2D 類似） ===== */
     .group-section {
       margin-bottom: 60px;
     }
@@ -202,7 +229,7 @@
     }
 
     .works-row .work-item {
-      flex: 1 1 280px;   /* 每行最多排 3 張左右，會自動換行 */
+      flex: 1 1 280px;
       max-width: 32%;
       min-width: 220px;
     }
@@ -224,10 +251,10 @@
       transition: transform 0.3s ease, filter 0.3s ease;
     }
 
-    /* ★ 建築建模區：固定縮圖高度，三張統一大小 */
+    /* 建築建模區：固定縮圖高度 */
     #house-exterior .work-thumb {
       width: 100%;
-      height: 220px;      /* 想更高或更矮可改這裡 */
+      height: 220px;
       overflow: hidden;
       border-radius: 10px;
       display: flex;
@@ -238,80 +265,161 @@
     #house-exterior .work-thumb img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* 自動裁切，保持一致尺寸 */
+      object-fit: cover;
     }
 
-    /* 懸浮放大效果（跟 2D 類似） */
+    /* 懸浮放大效果 */
     .glightbox:hover .work-thumb img {
       transform: scale(1.05);
       filter: brightness(1.05);
     }
 
-    /* 區塊分隔線 */
     .section-divider {
       border: none;
       border-top: 3px solid #000;
       margin: 40px 0;
     }
 
-    /* ================== 手機 RWD ================== */
-    @media (max-width: 768px) {
+    /* ================== 手機版多頁選單 ================== */
+    @media (max-width: 900px) {
+
       header {
         padding: 12px 20px;
+        position: relative;
+        z-index: 1000;
       }
 
       .navbar {
-        flex-wrap: wrap;
+        align-items: center;
       }
 
-      .nav-menu {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background: #fff;
-        border-top: 2px solid #000;
-        margin-top: 10px;
-        padding: 20px 0;
-      }
-
-      .nav-menu.show {
-        display: flex;
-      }
-
-      .nav-item {
-        padding: 16px 20px;
-        border-bottom: 1px solid #ddd;
-      }
-
-      .dropdown {
-        position: static;
-        transform: none;
-        opacity: 1;
-        pointer-events: auto;
-        border: none;
-        border-radius: 0;
-        padding: 10px 20px;
-        flex-direction: column;
-        display: none;
-      }
-
-      .nav-item.open .dropdown {
-        display: block;
-      }
-
+      /* 顯示漢堡 */
       .hamburger {
-        width: 30px;
-        height: 24px;
-        flex-direction: column;
-        justify-content: space-between;
         display: flex;
+        margin-left: auto;
+      }
+
+      /* 桌機 nav 在手機藏起來 */
+      .nav-menu-desktop {
+        display: none;
+      }
+
+      /* nav-menu 只當容器 */
+      .nav-menu {
+        gap: 0;
+      }
+
+      /* 手機專用全螢幕選單（多頁） */
+      .nav-menu-mobile {
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 64px;
+        bottom: 0;
+        background: #ffffff;
+        padding: 20px 18px 32px;
+        border-top: 2px solid #000;
+        z-index: 999;
+        flex-direction: column;
+      }
+
+      .nav-menu-mobile.show {
+        display: flex;
+      }
+
+      .mobile-menu-panel {
+        flex: 1;
+        display: none;
+        flex-direction: column;
+      }
+
+      .mobile-menu-panel.active {
+        display: flex;
+      }
+
+      /* 第一層主選單 */
+      .mobile-main-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .mobile-main-list li {
+        font-size: 18px;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .mobile-main-button {
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-size: 18px;
+        padding: 0;
         cursor: pointer;
       }
 
-      .hamburger span {
+      .mobile-main-list a {
+        text-decoration: none;
+        color: #000;
+        font-size: 18px;
+        display: block;
         width: 100%;
-        height: 4px;
-        background: #000;
+      }
+
+      /* 第二層子選單 header + body */
+      .mobile-menu-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .mobile-back {
+        border: none;
+        background: none;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 4px 8px 4px 0;
+      }
+
+      .mobile-menu-header-title {
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .mobile-menu-body {
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .mobile-section-title {
+        font-size: 16px;
+        margin: 14px 0 6px;
+        font-weight: 900;
+      }
+
+      .mobile-link-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 10px;
+      }
+
+      .mobile-link-list li a {
+        display: block;
+        padding: 4px 0;
+        font-size: 14px;
+        text-decoration: none;
+        color: #000;
+      }
+
+      .mobile-link-list li a:hover {
+        text-decoration: underline;
       }
 
       main {
@@ -336,21 +444,54 @@
     }
   </style>
 
+  <!-- 手機版 JS：多頁選單邏輯（跟 2D 委託頁同一套） -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const hamburger = document.querySelector(".hamburger");
-      const navMenu = document.querySelector(".nav-menu");
-      const navItems = document.querySelectorAll(".nav-item");
+      const mobileMenu = document.querySelector(".nav-menu-mobile");
+      const panels = document.querySelectorAll(".mobile-menu-panel");
 
-      hamburger.addEventListener("click", () => {
-        navMenu.classList.toggle("show");
-      });
+      function showPanel(id) {
+        panels.forEach(p => {
+          p.classList.toggle("active", p.id === id);
+        });
+      }
 
-      navItems.forEach(item => {
-        item.addEventListener("click", () => {
-          item.classList.toggle("open");
+      if (mobileMenu && panels.length > 0) {
+        showPanel("mobile-main-menu");
+      }
+
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener("click", () => {
+          const isOpen = mobileMenu.classList.toggle("show");
+          if (isOpen) {
+            showPanel("mobile-main-menu");
+          }
+        });
+      }
+
+      document.querySelectorAll(".mobile-main-button[data-target]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          if (targetId) {
+            showPanel(targetId);
+          }
         });
       });
+
+      document.querySelectorAll(".mobile-back").forEach(btn => {
+        btn.addEventListener("click", () => {
+          showPanel("mobile-main-menu");
+        });
+      });
+
+      if (mobileMenu) {
+        mobileMenu.querySelectorAll("a").forEach(a => {
+          a.addEventListener("click", () => {
+            mobileMenu.classList.remove("show");
+          });
+        });
+      }
     });
   </script>
 </head>
@@ -370,73 +511,146 @@
 
     <div class="nav-menu">
 
-      <!-- 1. 委託列表 -->
-      <div class="nav-item">
-        委託列表
-        <div class="dropdown">
-          <!-- 2D -->
-          <div class="dropdown-column">
-            <div class="dropdown-title">2D</div>
+      <!-- ========= 桌機版選單 ========= -->
+      <div class="nav-menu-desktop">
+        <!-- 1. 委託列表 -->
+        <div class="nav-item">
+          委託列表
+          <div class="dropdown">
+            <!-- 2D -->
+            <div class="dropdown-column">
+              <div class="dropdown-title">2D</div>
 
-            <a href="2d-commission.html" class="dropdown-title dropdown-link">繪圖委託</a>
-            <div class="dropdown-list">
-             <a href="2d-commission.html#fullbody-ohuman">立繪</a>
-              <a href="2d-commission.html#cloth">服設</a>
-              <a href="2d-commission.html#surprise">驚喜包</a>
-              <a href="2d-commission.html#halfbody">半身</a>
-              <a href="2d-commission.html#chibi">Q版</a>
-              <a href="2d-commission.html#head post">頭像</a>
-              <a href="2d-commission.html#poster">海報</a>
-              <a href="2d-commission.html#bg">大型場景插圖</a>
+              <a href="2d-commission.html" class="dropdown-title dropdown-link">繪圖委託</a>
+              <div class="dropdown-list">
+                <a href="2d-commission.html#fullbody-ohuman">立繪</a>
+                <a href="2d-commission.html#cloth">服設</a>
+                <a href="2d-commission.html#surprise">驚喜包</a>
+                <a href="2d-commission.html#halfbody">半身</a>
+                <a href="2d-commission.html#chibi">Q版</a>
+                <a href="2d-commission.html#head post">頭像</a>
+                <a href="2d-commission.html#poster">海報</a>
+                <a href="2d-commission.html#bg">大型場景插圖</a>
+              </div>
+
+              <a href="2d-commission.html#animation-group" class="dropdown-title dropdown-link">動畫委託</a>
+              <div class="dropdown-list">
+                <a href="2d-commission.html#spine">Spine</a>
+                <a href="2d-commission.html#pixel">像素</a>
+              </div>
             </div>
 
-            <a href="2d-commission.html#animation-group" class="dropdown-title dropdown-link">動畫委託</a>
-            <div class="dropdown-list">
-              <a href="2d-commission.html#spine">Spine</a>
-              <a href="2d-commission.html#pixel">像素</a>
-            </div>
-          </div>
-
-          <!-- 3D -->
-          <div class="dropdown-column">
-            <div class="dropdown-title">3D</div>
-            <a href="3d-commission.html" class="dropdown-title dropdown-link">3D建模</a>
-            <div class="dropdown-list">
-              <a href="3d-commission.html#model-group">3D作品區</a>
-              <a href="3d-commission.html#anim3d-group">3D動畫區</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2. 創作者列表 -->
-      <div class="nav-item">
-        創作者列表
-        <div class="dropdown">
-          <div class="dropdown-column">
-            <div class="dropdown-title">2D</div>
-            <div class="dropdown-list">
-              <a href="2d-commission YATING.html">飛天蘋果派</a>
-            </div>
-          </div>
-
-          <div class="dropdown-column">
-            <div class="dropdown-title">3D</div>
-            <div class="dropdown-list">
-              <a href="3d-commission Sprite.html">雪碧</a>
-              <a href="3d-commissioneko.html">Evrox KO</a>
+            <!-- 3D -->
+            <div class="dropdown-column">
+              <div class="dropdown-title">3D</div>
+              <a href="3d-commission.html" class="dropdown-title dropdown-link">3D建模</a>
+              <div class="dropdown-list">
+                <a href="3d-commission.html#model-group">3D作品區</a>
+                <a href="3d-commission.html#anim3d-group">3D動畫區</a>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- 2. 創作者列表 -->
+        <div class="nav-item">
+          創作者列表
+          <div class="dropdown">
+            <div class="dropdown-column">
+              <div class="dropdown-title">2D</div>
+              <div class="dropdown-list">
+                <a href="2d-commission YATING.html">飛天蘋果派</a>
+              </div>
+            </div>
+
+            <div class="dropdown-column">
+              <div class="dropdown-title">3D</div>
+              <div class="dropdown-list">
+                <a href="3d-commission Sprite.html">雪碧</a>
+                <a href="3d-commissioneko.html">Evrox KO</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 關於工作室 -->
+        <div class="nav-item">
+          <a href="index.html" class="nav-main-link">關於工作室</a>
+        </div>
       </div>
 
-      <!-- 3. 關於工作室 -->
-      <div class="nav-item">
-        <a href="index.html" class="nav-main-link">關於工作室</a>
-      </div>
+      <!-- ========= 手機版多頁選單 ========= -->
+      <div class="nav-menu-mobile">
+        <!-- 第一頁：主選單 -->
+        <div class="mobile-menu-panel active" id="mobile-main-menu">
+          <ul class="mobile-main-list">
+            <li>
+              <button class="mobile-main-button" data-target="mobile-sub-commission">委託列表</button>
+            </li>
+            <li>
+              <button class="mobile-main-button" data-target="mobile-sub-creators">創作者列表</button>
+            </li>
+            <li>
+              <a href="index.html">關於工作室</a>
+            </li>
+          </ul>
+        </div>
 
-    </div>
-  </div>
+        <!-- 第二頁：委託列表 -->
+        <div class="mobile-menu-panel" id="mobile-sub-commission">
+          <div class="mobile-menu-header">
+            <button class="mobile-back">←</button>
+            <span class="mobile-menu-header-title">委託列表</span>
+          </div>
+          <div class="mobile-menu-body">
+            <div class="mobile-section-title">2D 繪圖 / 動畫</div>
+            <ul class="mobile-link-list">
+              <li><a href="2d-commission.html">繪圖委託（總覽）</a></li>
+              <li><a href="2d-commission.html#fullbody-ohuman">立繪</a></li>
+              <li><a href="2d-commission.html#cloth">服設</a></li>
+              <li><a href="2d-commission.html#surprise">驚喜包</a></li>
+              <li><a href="2d-commission.html#halfbody">半身</a></li>
+              <li><a href="2d-commission.html#chibi">Q版</a></li>
+              <li><a href="2d-commission.html#head post">頭像</a></li>
+              <li><a href="2d-commission.html#poster">海報</a></li>
+              <li><a href="2d-commission.html#bg">大型場景插圖</a></li>
+              <li><a href="2d-commission.html#animation-group">動畫委託（總覽）</a></li>
+              <li><a href="2d-commission.html#spine">Spine 動畫</a></li>
+              <li><a href="2d-commission.html#pixel">像素動畫</a></li>
+            </ul>
+
+            <div class="mobile-section-title">3D 建模 / 動畫</div>
+            <ul class="mobile-link-list">
+              <li><a href="3d-commission.html">3D建模（總覽）</a></li>
+              <li><a href="3d-commission.html#model-group">3D作品區</a></li>
+              <li><a href="3d-commission.html#anim3d-group">3D動畫區</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 第三頁：創作者列表 -->
+        <div class="mobile-menu-panel" id="mobile-sub-creators">
+          <div class="mobile-menu-header">
+            <button class="mobile-back">←</button>
+            <span class="mobile-menu-header-title">創作者列表</span>
+          </div>
+          <div class="mobile-menu-body">
+            <div class="mobile-section-title">2D 創作者</div>
+            <ul class="mobile-link-list">
+              <li><a href="2d-commission YATING.html">飛天蘋果派</a></li>
+            </ul>
+
+            <div class="mobile-section-title">3D 創作者</div>
+            <ul class="mobile-link-list">
+              <li><a href="3d-commission Sprite.html">雪碧</a></li>
+              <li><a href="3d-commissioneko.html">Evrox KO</a></li>
+            </ul>
+          </div>
+        </div>
+      </div><!-- nav-menu-mobile -->
+
+    </div><!-- nav-menu -->
+  </div><!-- navbar -->
 </header>
 
 <main>
@@ -462,7 +676,7 @@
             </a>
             <a href="image/雪碧/外觀02.png" class="glightbox" data-gallery="exterior-gallery" style="display:none;"></a>
             <a href="image/雪碧/外觀03.png" class="glightbox" data-gallery="exterior-gallery" style="display:none;"></a>
-           
+
             <a href="image/雪碧/room-01.png" class="work-item glightbox" data-gallery="interior-gallery">
               <div class="work-thumb">
                 <img src="image/雪碧/room-01.png" alt="房間 1">
@@ -470,7 +684,7 @@
             </a>
             <a href="image/雪碧/room-02.png" class="glightbox" data-gallery="interior-gallery" style="display:none;"></a>
             <a href="image/雪碧/room-03.png" class="glightbox" data-gallery="interior-gallery" style="display:none;"></a>
-          
+
             <a href="image/Evrox KO/room 1.jpg" class="work-item glightbox" data-gallery="EKO-gallery">
               <div class="work-thumb">
                 <img src="image/Evrox KO/room 1.jpg" alt="房間 1">
@@ -480,7 +694,6 @@
             <a href="image/Evrox KO/room 3.jpg" class="glightbox" data-gallery="EKO-gallery" style="display:none;"></a>
             <a href="image/Evrox KO/room 4.jpg" class="glightbox" data-gallery="EKO-gallery" style="display:none;"></a>
             <a href="image/Evrox KO/room 5.jpg" class="glightbox" data-gallery="EKO-gallery" style="display:none;"></a>
-          
           </div>
         </section>
 
@@ -496,7 +709,6 @@
             <a href="image/Evrox KO/gun 2.jpg" class="glightbox" data-gallery="object-gallery" style="display:none;"></a>
             <a href="image/Evrox KO/gun 3.jpg" class="glightbox" data-gallery="object-gallery" style="display:none;"></a>
 
-            <!-- 海報相關作品 -->
             <a href="image/Evrox KO/evrox-dvd1.jpg" class="work-item glightbox" data-gallery="object1-gallery">
               <div class="work-thumb">
                 <img src="image/Evrox KO/evrox-dvd1.jpg" alt="海報 4">
@@ -523,19 +735,21 @@
             <a href="image/Evrox KO/device-design.jpg" class="glightbox" data-gallery="object2-gallery" style="display:none;"></a>
           </div>
         </section>
-        <section class="category-block" id="GAMEobject-model">
-  <h3 class="category-title">角色建模區</h3>
-  <div class="works-row">
-    <a href="image/Evrox KO/evrox-image.jpg"
-       class="work-item glightbox"
-       data-gallery="object3-gallery">
-      <div class="work-thumb">
-        <img src="image/Evrox KO/evrox-image.jpg" alt="GUN">
-      </div>
-    </a>
-  </div>
-</section>
 
+        <section class="category-block" id="GAMEobject-model">
+          <h3 class="category-title">角色建模區</h3>
+          <div class="works-row">
+            <a href="image/Evrox KO/evrox-image.jpg"
+               class="work-item glightbox"
+               data-gallery="object3-gallery">
+              <div class="work-thumb">
+                <img src="image/Evrox KO/evrox-image.jpg" alt="角色">
+              </div>
+            </a>
+          </div>
+        </section>
+
+      </section>
 
       <!-- 分隔線 -->
       <hr class="section-divider">
@@ -547,7 +761,6 @@
         <section class="category-block" id="anim3d">
           <h3 class="category-title">告別日光</h3>
           <div class="works-row">
-            <!-- 以告別日光圖當縮圖，點擊播放 mp4 -->
             <a href="image/雪碧/告別日光 1.mp4"
                class="work-item glightbox"
                data-gallery="anim3d-gallery"
