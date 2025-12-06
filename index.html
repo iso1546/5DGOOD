@@ -299,10 +299,13 @@
     /* ====================== 手機版 RWD：跟 2D 頁面同款多頁側邊選單 ====================== */
     @media (max-width: 900px) {
 
+      /* ✅ 讓 header & 漢堡固定在最上層，不會被灰色區塊擋住 */
       header {
         padding: 12px 20px;
-        position: relative;
-        z-index: 1000;
+        position: sticky;   /* 會固定在畫面頂部 */
+        top: 0;
+        z-index: 9999;      /* 高於所有內容 */
+        background: #ffffff;
       }
 
       .navbar {
@@ -313,6 +316,10 @@
       .hamburger {
         display: flex;
         margin-left: auto;
+        position: absolute;  /* 固定在 header 右上角 */
+        right: 20px;
+        top: 20px;
+        z-index: 10000;      /* 確保一定能點到 */
       }
 
       /* 桌機 nav 在手機藏起來 */
@@ -336,7 +343,7 @@
         background: #ffffff;
         padding: 20px 18px 32px;
         border-top: 2px solid #000;
-        z-index: 999;
+        z-index: 9998;        /* 在內容上方，但在 header/漢堡下方 */
         flex-direction: column;
       }
 
@@ -566,7 +573,7 @@
 
       <div class="nav-menu">
 
-        <!-- ========= 桌機版選單（跟原本內容一樣） ========= -->
+        <!-- ========= 桌機版選單 ========= -->
         <div class="nav-menu-desktop">
           <!-- 1. 委託列表 -->
           <div class="nav-item">
@@ -634,7 +641,7 @@
           </div>
         </div>
 
-        <!-- ========= 手機版選單（多頁式，跟 2D 同款） ========= -->
+        <!-- ========= 手機版選單（多頁式） ========= -->
         <div class="nav-menu-mobile">
 
           <!-- 第一頁：主選單 -->
