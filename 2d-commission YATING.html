@@ -17,7 +17,7 @@
   <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 
   <style>
-    /* 全站基底（跟首頁一樣） */
+    /* 全站基底 */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -307,117 +307,138 @@
       transform: scale(1.03);
     }
 
-    /* ================== 手機版 RWD ================== */
     /* ================== 手機版 RWD（完整替換） ================== */
-@media (max-width: 900px) {
+    @media (max-width: 900px) {
 
-  header {
-    padding: 12px 20px;
-    position: relative;
-    z-index: 1000;
-  }
+      header {
+        padding: 12px 20px;
+        position: relative;
+        z-index: 1000;
+      }
 
-  .navbar {
-    flex-wrap: wrap;
-  }
+      .navbar {
+        flex-wrap: wrap;
+      }
 
-  /* 漢堡按鈕 */
-  .hamburger {
-    display: flex;
-  }
+      /* 漢堡按鈕 */
+      .hamburger {
+        display: flex;
+      }
 
-  /* 展開/收起主選單 */
-  .nav-menu {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background: #fff;
-    border-top: 2px solid #000;
-    margin-top: 10px;
-    padding: 20px 0;
-    position: relative;
-    z-index: 1000;
-  }
+      /* 展開/收起主選單 */
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #fff;
+        border-top: 2px solid #000;
+        margin-top: 10px;
+        padding: 20px 0;
+        position: relative;
+        z-index: 1000;
+      }
 
-  .nav-menu.show {
-    display: flex;
-  }
+      .nav-menu.show {
+        display: flex;
+      }
 
-  .nav-item {
-    padding: 16px 20px;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-  }
+      .nav-item {
+        padding: 16px 20px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+      }
 
-  /* ⭐ 手機模式的 dropdown：2D 左邊、3D 右邊 */
-  .dropdown {
-    position: static;
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-    border: none;
-    border-radius: 0;
-    padding: 10px 0 0 0;
-    margin-top: 8px;
-    background: #fff;
+      /* 手機模式的 dropdown：2D 左邊、3D 右邊，預設收合 */
+      .dropdown {
+        position: static;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        border: none;
+        border-radius: 0;
+        padding: 10px 0 0 0;
+        margin-top: 8px;
+        background: #fff;
 
-    /* ⭐ 讓內容兩欄排列 */
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    box-shadow: none;
+        /* 兩欄排版 */
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        box-shadow: none;
 
-    /* 用 max-height 控制展開 */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.25s ease;
-  }
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease;
+      }
 
-  /* ⭐ 展開：可容納兩欄內容 */
-  .nav-item.open .dropdown {
-    max-height: 700px;
-  }
+      /* 展開時 */
+      .nav-item.open .dropdown {
+        max-height: 700px;
+      }
 
-  /* dropdown 內的 column：左右各半 */
-  .dropdown-column {
-    flex: 1 1 50%;   /* 一列兩欄 */
-    min-width: 0;
-    padding: 0 12px;
-  }
+      /* 左右各半欄位：左 2D / 右 3D */
+      .dropdown-column {
+        flex: 1 1 50%;
+        min-width: 0;
+        padding: 0 12px;
+      }
 
-  /* 內容區調整 */
-  main {
-    padding: 20px;
-  }
+      /* 內容區調整 */
+      main {
+        padding: 20px;
+      }
 
-  .main-layout {
-    flex-direction: column;
-  }
+      .main-layout {
+        flex-direction: column;
+      }
 
-  .row-grid {
-    flex-direction: column;
-  }
+      .row-grid {
+        flex-direction: column;
+      }
 
-  .creator-card {
-    position: static;
-    width: 100%;
-    margin-top: 20px;
-  }
-}
-
+      .creator-card {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
   </style>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const hamburger = document.querySelector(".hamburger");
       const navMenu = document.querySelector(".nav-menu");
+      const navItems = document.querySelectorAll(".nav-item");
 
-      // ✅ 只保留「漢堡打開 / 關閉整個 nav-menu」
+      // 漢堡按鈕：展開/收起整個 nav-menu
       if (hamburger && navMenu) {
         hamburger.addEventListener("click", () => {
           navMenu.classList.toggle("show");
         });
       }
+
+      // 手機版：點 nav-item 展開 / 收起 dropdown
+      navItems.forEach(item => {
+        const dropdown = item.querySelector(".dropdown");
+        if (!dropdown) return; // 沒 dropdown 的（關於工作室）略過
+
+        item.addEventListener("click", (e) => {
+          // 只在手機寬度時啟用
+          if (window.innerWidth > 900) return;
+
+          const target = e.target;
+
+          // 如果點到的是 dropdown 裡的超連結，讓它正常跳頁，順便收起整個選單
+          if (dropdown.contains(target) && target.tagName.toLowerCase() === "a") {
+            navMenu.classList.remove("show");
+            return;
+          }
+
+          // 點到「委託列表」或「創作者列表」本身：只展開 / 收合，不跳頁
+          e.preventDefault();
+          item.classList.toggle("open");
+        });
+      });
     });
   </script>
 
