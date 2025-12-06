@@ -31,7 +31,7 @@
       color: #111;
     }
 
-    /* ================== Header / 導覽列（完全照首頁） ================== */
+    /* ================== Header / 導覽列 ================== */
     header {
       border-bottom: 3px solid #000;
       padding: 16px 60px 0;
@@ -89,6 +89,7 @@
       background: black;
     }
 
+    /* 桌機版 dropdown：滑過才出現 */
     .dropdown {
       position: absolute;
       top: 80%;
@@ -166,7 +167,7 @@
       background: #000;
     }
 
-    /* ================== 主內容（保留你原本樣式） ================== */
+    /* ================== 主內容 ================== */
     main {
       padding: 60px 40px;
     }
@@ -240,7 +241,7 @@
       filter: brightness(1.1);
     }
 
-    /* 你原本的微調寬度設定保留 */
+    /* 微調寬度設定 */
     #halfbody .work-thumb img {
       width: 105%;
     }
@@ -257,7 +258,7 @@
       width: 110%;
     }
 
-    /* 右側名片卡（保留） */
+    /* 右側名片卡 */
     .creator-card {
       width: 320px;
       background: white;
@@ -306,97 +307,120 @@
       transform: scale(1.03);
     }
 
-    /* 手機版 RWD（和首頁邏輯一致） */
-  @media (max-width: 900px) {
-  header {
-    padding: 12px 20px;
-    position: relative;
-    z-index: 1000;
-  }
+    /* ================== 手機版 RWD ================== */
+    @media (max-width: 900px) {
+      header {
+        padding: 12px 20px;
+        position: relative;
+        z-index: 1000;
+      }
 
-  .navbar {
-    flex-wrap: wrap;
-  }
+      .navbar {
+        flex-wrap: wrap;
+      }
 
-  /* 漢堡選單 */
-  .hamburger {
-    display: flex;
-  }
+      .hamburger {
+        display: flex;
+      }
 
-  /* 整個選單（漢堡展開/收起） */
-  .nav-menu {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background: #fff;
-    border-top: 2px solid #000;
-    margin-top: 10px;
-    padding: 20px 0;
-    position: relative;
-    z-index: 1000;
-  }
+      /* 整個選單（漢堡展開/收起） */
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #fff;
+        border-top: 2px solid #000;
+        margin-top: 10px;
+        padding: 20px 0;
+        position: relative;
+        z-index: 1000;
+      }
 
-  .nav-menu.show {
-    display: flex;
-  }
+      .nav-menu.show {
+        display: flex;
+      }
 
-  .nav-item {
-    padding: 16px 20px;
-    border-bottom: 1px solid #ddd;
-  }
+      .nav-item {
+        padding: 16px 20px;
+        border-bottom: 1px solid #ddd;
+      }
 
-  /* ✅ 手機版：所有 dropdown 永遠打開顯示，改成 block */
-  .dropdown {
-    position: static;
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-    border: none;
-    border-radius: 0;
-    padding: 10px 20px;
-    flex-direction: column;
-    display: block;   /* 原本如果是 display:none 一定會出問題 */
-  }
+      /* 手機版 dropdown：點 nav-item 才展開 */
+      .dropdown {
+        position: static;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        border: none;
+        border-radius: 0;
+        padding: 10px 20px;
+        flex-direction: column;
+        background: #fff;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease;
+      }
 
-  /* 這段舊邏輯可以刪掉，不再用 nav-item.open 來控制顯示
-  .nav-item.open .dropdown {
-    display: block;
-  }
-  */
+      .nav-item.open .dropdown {
+        max-height: 600px; /* 足夠放下所有選項即可 */
+      }
 
-  main {
-    padding: 20px;
-  }
+      main {
+        padding: 20px;
+      }
 
-  .main-layout {
-    flex-direction: column;
-  }
+      .main-layout {
+        flex-direction: column;
+      }
 
-  .row-grid {
-    flex-direction: column;
-  }
+      .row-grid {
+        flex-direction: column;
+      }
 
-  .creator-card {
-    position: static;
-    width: 100%;
-    margin-top: 20px;
-  }
-}
-
+      .creator-card {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
   </style>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.querySelector(".hamburger");
-  const navMenu = document.querySelector(".nav-menu");
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+      const navItems = document.querySelectorAll(".nav-item");
 
-  if (hamburger) {
-    hamburger.addEventListener("click", () => {
-      navMenu.classList.toggle("show");
+      // 漢堡按鈕：展開/收起整個 nav-menu
+      if (hamburger && navMenu) {
+        hamburger.addEventListener("click", () => {
+          navMenu.classList.toggle("show");
+        });
+      }
+
+      // 手機版：點 nav-item 展開 / 收起 dropdown
+      navItems.forEach(item => {
+        const dropdown = item.querySelector(".dropdown");
+        if (!dropdown) return; // 沒 dropdown 的（關於工作室）直接略過
+
+        item.addEventListener("click", (e) => {
+          // 只在手機寬度時啟用這個邏輯
+          if (window.innerWidth > 900) return;
+
+          const target = e.target;
+
+          // 如果點到的是 dropdown 裡的 a，就讓它正常跳頁
+          if (target.tagName.toLowerCase() === "a" && !target.classList.contains("nav-main-link")) {
+            return;
+          }
+
+          // 點到 nav-item 本身（例如「委託列表」字）時，只展開/收起，不跳頁
+          e.preventDefault();
+          item.classList.toggle("open");
+        });
+      });
     });
-  }
-});
-
   </script>
 
 </head>
@@ -415,7 +439,7 @@
 
     <div class="nav-menu">
 
-      <!-- 1. 委託列表（跟首頁一樣） -->
+      <!-- 1. 委託列表 -->
       <div class="nav-item">
         委託列表
         <div class="dropdown">
@@ -490,14 +514,13 @@
 
     <!-- 左側：2D 作品 -->
     <div class="page-container">
-       <h1 class="page-title">亞庭作品集</h1>
+      <h1 class="page-title">亞庭作品集</h1>
       <p class="page-subtitle">以下為 2D 繪圖與動畫作品展示，點擊圖片可放大並左右切換。</p>
 
       <!-- ===== 上區：繪畫委託 ===== -->
       <section class="group-section" id="paint-group">
         <h2 class="group-title">立繪</h2>
 
-        
         <div class="row-grid">
           <section class="category-block" id="fullbody-ohuman">
             <h3 class="category-title">人外精緻立繪</h3>
@@ -512,60 +535,61 @@
               <a href="image/亞庭/人外立繪 6.png" class="glightbox" data-gallery="fullbody-ohuman" style="display:none;"></a>
             </div>
           </section>
-          <div class="row-grid">
-          <section class="category-block" id="fullbody-american-human">
-            <h3 class="category-title">美式立繪（人形）</h3>
-            <div class="works-row">
-              <a href="image/亞庭/美立(人形) 1.png" class="glightbox" data-gallery="fullbody-human">
-                <div class="work-thumb"><img src="image/亞庭/美立(人形) 1.png"></div>
-              </a>
-              <a href="image/亞庭/美立(人形) 2.png" class="glightbox" data-gallery="fullbody-human" style="display:none;"></a>
-              <a href="image/亞庭/美立(人形) 3.png" class="glightbox" data-gallery="fullbody-human" style="display:none;"></a>
-              <a href="image/亞庭/美立(人形) 4.png" class="glightbox" data-gallery="fullbody-human" style="display:none;"></a>
-            </div>
-          </section>
 
-          <section class="category-block" id="fullbody-american-nonhuman">
-            <h3 class="category-title">美式立繪（非人）</h3>
-            <div class="works-row">
-              <a href="image/亞庭/美立(非人) 1.png" class="glightbox" data-gallery="fullbody-nonhuman">
-                <div class="work-thumb"><img src="image/亞庭/美立(非人) 1.png"></div>
-              </a>
-              <a href="image/亞庭/美立(非人) 2.png" class="glightbox" data-gallery="fullbody-nonhuman" style="display:none;"></a>
-              <a href="image/亞庭/美立(非人) 3.png" class="glightbox" data-gallery="fullbody-nonhuman" style="display:none;"></a>
-              <a href="image/亞庭/美立(非人) 4.png" class="glightbox" data-gallery="fullbody-nonhuman" style="display:none;"></a>
-              <a href="image/亞庭/美立(非人) 5.png" class="glightbox" data-gallery="fullbody-nonhuman" style="display:none;"></a>
+          <div class="row-grid">
+            <section class="category-block" id="fullbody-american-human">
+              <h3 class="category-title">美式立繪（人形）</h3>
+              <div class="works-row">
+                <a href="image/亞庭/美立(人形) 1.png" class="glightbox" data-gallery="fullbody-human">
+                  <div class="work-thumb"><img src="image/亞庭/美立(人形) 1.png"></div>
+                </a>
+                <a href="image/亞庭/美立(人形) 2.png" class="glightbox" data-gallery="fullbody-human" style="display:none;"></a>
+                <a href="image/亞庭/美立(人形) 3.png" class="glightbox" data-gallery="fullbody-human" style="display:none;"></a>
+                <a href="image/亞庭/美立(人形) 4.png" class="glightbox" data-gallery="fullbody-human" style="display:none;"></a>
+              </div>
+            </section>
+
+            <section class="category-block" id="fullbody-american-nonhuman">
+              <h3 class="category-title">美式立繪（非人）</h3>
+              <div class="works-row">
+                <a href="image/亞庭/美立(非人) 1.png" class="glightbox" data-gallery="fullbody-nonhuman">
+                  <div class="work-thumb"><img src="image/亞庭/美立(非人) 1.png"></div>
+                </a>
+                <a href="image/亞庭/美立(非人) 2.png" class="glightbox" data-gallery="fullbody-nonhuman" style="display:none;"></a>
+                <a href="image/亞庭/美立(非人) 3.png" class="glightbox" data-gallery="fullbody-nonhuman" style="display:none;"></a>
+                <a href="image/亞庭/美立(非人) 4.png" class="glightbox" data-gallery="fullbody-nonhuman" style="display:none;"></a>
+                <a href="image/亞庭/美立(非人) 5.png" class="glightbox" data-gallery="fullbody-nonhuman" style="display:none;"></a>
+              </div>
+            </section>
+
+            <div class="row-grid">
+              <section class="category-block" id="fullbody-shuman">
+                <h3 class="category-title">精緻立繪</h3>
+                <div class="works-row">
+                  <a href="image/亞庭/精緻立繪 1.png" class="glightbox" data-gallery="fullbody-shuman">
+                    <div class="work-thumb"><img src="image/亞庭/精緻立繪 1.png"></div>
+                  </a>
+                  <a href="image/亞庭/精緻立繪 2.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
+                  <a href="image/亞庭/精緻立繪 3.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
+                  <a href="image/亞庭/精緻立繪 4.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
+                  <a href="image/亞庭/精緻立繪 5.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
+                  <a href="image/亞庭/精緻立繪 6.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
+                </div>
+              </section>
+
+              <section class="category-block" id="fullbody-exhuman">
+                <h3 class="category-title">特殊風格立繪</h3>
+                <div class="works-row">
+                  <a href="image/亞庭/特殊立繪 1.png" class="glightbox" data-gallery="fullbody-exhuman">
+                    <div class="work-thumb"><img src="image/亞庭/特殊立繪 1.png"></div>
+                  </a>
+                  <a href="image/亞庭/特殊立繪 2.png" class="glightbox" data-gallery="fullbody-exhuman" style="display:none;"></a>
+                  <a href="image/亞庭/特殊立繪 3.png" class="glightbox" data-gallery="fullbody-exhuman" style="display:none;"></a>
+                  <a href="image/亞庭/特殊立繪 4.png" class="glightbox" data-gallery="fullbody-exhuman" style="display:none;"></a>
+                </div>
+              </section>
             </div>
-          </section>
-        <!-- 行 3：精緻立繪 -->
-        <div class="row-grid">
-             <section class="category-block" id="fullbody-shuman">
-            <h3 class="category-title">精緻立繪</h3>
-            <div class="works-row">
-              <a href="image/亞庭/精緻立繪 1.png" class="glightbox" data-gallery="fullbody-shuman">
-                <div class="work-thumb"><img src="image/亞庭/精緻立繪 1.png"></div>
-              </a>
-              <a href="image/亞庭/精緻立繪 2.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
-              <a href="image/亞庭/精緻立繪 3.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
-              <a href="image/亞庭/精緻立繪 4.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
-              <a href="image/亞庭/精緻立繪 5.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
-              <a href="image/亞庭/精緻立繪 6.png" class="glightbox" data-gallery="fullbody-shuman" style="display:none;"></a>
-            </div>
-          </section>
-          <section class="category-block" id="fullbody-exhuman">
-            <h3 class="category-title">特殊風格立繪</h3>
-            <div class="works-row">
-              <a href="image/亞庭/特殊立繪 1.png" class="glightbox" data-gallery="fullbody-exhuman">
-                <div class="work-thumb"><img src="image/亞庭/特殊立繪 1.png"></div>
-              </a>
-              <a href="image/亞庭/特殊立繪 2.png" class="glightbox" data-gallery="fullbody-exhuman" style="display:none;"></a>
-              <a href="image/亞庭/特殊立繪 3.png" class="glightbox" data-gallery="fullbody-exhuman" style="display:none;"></a>
-              <a href="image/亞庭/特殊立繪 4.png" class="glightbox" data-gallery="fullbody-exhuman" style="display:none;"></a>
-            </div>
-          </section>
-        </div>
-        </div>
-         
+          </div>
         </div>
 
         <!-- 行 4：服設｜Q版｜單色黑白驚喜包｜大型場景插圖 -->
@@ -581,6 +605,7 @@
               <a href="image/亞庭/服設 4.png" class="glightbox" data-gallery="cloth" style="display:none;"></a>
             </div>
           </section>
+
           <section class="category-block" id="halfbody">
             <h3 class="category-title">半身</h3>
             <div class="works-row">
@@ -593,65 +618,67 @@
               <a href="image/亞庭/半身三.png" class="glightbox" data-gallery="halfbody" style="display:none;"></a>
             </div>
           </section>
-          <div class="row-grid">
-          <section class="category-block" id="chibi">
-            <h3 class="category-title">Q版</h3>
-            <div class="works-row">
-              <a href="image/亞庭/Q版1.jpg" class="glightbox" data-gallery="chibi">
-                <div class="work-thumb"><img src="image/亞庭/Q版1.jpg"></div>
-              </a>
-              <a href="image/亞庭/Q版2.jpg" class="glightbox" data-gallery="chibi" style="display:none;"></a>
-              <a href="image/亞庭/Q版3.jpg" class="glightbox" data-gallery="chibi" style="display:none;"></a>
-            </div>
-          </section>
-           <section class="category-block" id="head post">
-            <h3 class="category-title">頭像</h3>
-            <div class="works-row">
-              <a href="image/亞庭/頭像1.png" class="glightbox" data-gallery="head post">
-                <div class="work-thumb"><img src="image/亞庭/頭像1.png"></div>
-              </a>
-              <a href="image/亞庭/頭像2.png" class="glightbox" data-gallery="head post" style="display:none;"></a>
-              <a href="image/亞庭/頭像3.png" class="glightbox" data-gallery="head post" style="display:none;"></a>
-            </div>
-          </section>
 
-          <section class="category-block" id="surprise">
-            <h3 class="category-title">單色黑白驚喜包</h3>
-            <div class="works-row">
-              <a href="image/亞庭/驚喜包1.png" class="glightbox" data-gallery="surprise">
-                <div class="work-thumb"><img src="image/亞庭/驚喜包1.png"></div>
-              </a>
-              <a href="image/亞庭/驚喜包2.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
-              <a href="image/亞庭/驚喜包3.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
-              <a href="image/亞庭/驚喜包4.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
-              <a href="image/亞庭/驚喜包5.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
-              <a href="image/亞庭/驚喜包6.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
-            </div>
-          </section>
           <div class="row-grid">
-          <section class="category-block" id="bg">
-            <h3 class="category-title">大型場景插圖</h3>
-            <div class="works-row">
-              <a href="image/亞庭/場景1.png" class="glightbox" data-gallery="bg">
-                <div class="work-thumb"><img src="image/亞庭/場景1.png"></div>
-              </a>
-              <a href="image/亞庭/場景2.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
-              <a href="image/亞庭/場景3.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
-              <a href="image/亞庭/場景4.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
-              <a href="image/亞庭/場景5.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
-              <a href="image/亞庭/場景6.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
+            <section class="category-block" id="chibi">
+              <h3 class="category-title">Q版</h3>
+              <div class="works-row">
+                <a href="image/亞庭/Q版1.jpg" class="glightbox" data-gallery="chibi">
+                  <div class="work-thumb"><img src="image/亞庭/Q版1.jpg"></div>
+                </a>
+                <a href="image/亞庭/Q版2.jpg" class="glightbox" data-gallery="chibi" style="display:none;"></a>
+                <a href="image/亞庭/Q版3.jpg" class="glightbox" data-gallery="chibi" style="display:none;"></a>
+              </div>
+            </section>
+
+            <section class="category-block" id="head post">
+              <h3 class="category-title">頭像</h3>
+              <div class="works-row">
+                <a href="image/亞庭/頭像1.png" class="glightbox" data-gallery="head post">
+                  <div class="work-thumb"><img src="image/亞庭/頭像1.png"></div>
+                </a>
+                <a href="image/亞庭/頭像2.png" class="glightbox" data-gallery="head post" style="display:none;"></a>
+                <a href="image/亞庭/頭像3.png" class="glightbox" data-gallery="head post" style="display:none;"></a>
+              </div>
+            </section>
+
+            <section class="category-block" id="surprise">
+              <h3 class="category-title">單色黑白驚喜包</h3>
+              <div class="works-row">
+                <a href="image/亞庭/驚喜包1.png" class="glightbox" data-gallery="surprise">
+                  <div class="work-thumb"><img src="image/亞庭/驚喜包1.png"></div>
+                </a>
+                <a href="image/亞庭/驚喜包2.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
+                <a href="image/亞庭/驚喜包3.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
+                <a href="image/亞庭/驚喜包4.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
+                <a href="image/亞庭/驚喜包5.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
+                <a href="image/亞庭/驚喜包6.png" class="glightbox" data-gallery="surprise" style="display:none;"></a>
+              </div>
+            </section>
+
+            <div class="row-grid">
+              <section class="category-block" id="bg">
+                <h3 class="category-title">大型場景插圖</h3>
+                <div class="works-row">
+                  <a href="image/亞庭/場景1.png" class="glightbox" data-gallery="bg">
+                    <div class="work-thumb"><img src="image/亞庭/場景1.png"></div>
+                  </a>
+                  <a href="image/亞庭/場景2.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
+                  <a href="image/亞庭/場景3.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
+                  <a href="image/亞庭/場景4.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
+                  <a href="image/亞庭/場景5.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
+                  <a href="image/亞庭/場景6.png" class="glightbox" data-gallery="bg" style="display:none;"></a>
+                </div>
+              </section>
             </div>
-          </section>
+          </div>
         </div>
-
-      </section><!-- 繪畫委託 group-section -->
-
+      </section>
 
       <!-- ===== 下區：2D 動畫委託 ===== -->
       <section class="group-section" id="animation-group">
         <h2 class="group-title">2D 動畫委託</h2>
 
-        <!-- 行：Spine 動畫｜像素動畫 -->
         <div class="row-grid">
 
           <section class="category-block" id="spine">
@@ -663,7 +690,6 @@
               <a href="image/亞庭/Spine 2.gif" class="glightbox" data-gallery="spine" style="display:none;"></a>
               <a href="image/亞庭/Spine 4.gif" class="glightbox" data-gallery="spine" style="display:none;"></a>
               <a href="image/亞庭/Spine 3.gif" class="glightbox" data-gallery="spine" style="display:none;"></a>
-            
             </div>
           </section>
 
@@ -678,7 +704,6 @@
               <a href="image/亞庭/像素 4.gif" class="glightbox" data-gallery="pixel" style="display:none;"></a>
               <a href="image/亞庭/像素 5.gif" class="glightbox" data-gallery="pixel" style="display:none;"></a>
               <a href="image/亞庭/像素 1.png" class="glightbox" data-gallery="pixel" style="display:none;"></a>
-              
             </div>
           </section>
 
@@ -687,7 +712,7 @@
 
     </div><!-- page-container -->
 
-    <!-- 右側名片（保留你原本的結構） -->
+    <!-- 右側名片 -->
     <aside class="creator-card">
       <img src="image/亞庭/飛天蘋果派.png" class="creator-avatar" alt="飛天蘋果派 頭像">
       <h2 class="creator-name">飛天蘋果派</h2>
