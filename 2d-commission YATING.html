@@ -307,92 +307,96 @@
     }
 
     /* 手機版 RWD（和首頁邏輯一致） */
-    @media (max-width: 900px) {
-      header {
-        padding: 12px 20px;
-      }
+  @media (max-width: 900px) {
+  header {
+    padding: 12px 20px;
+    position: relative;
+    z-index: 1000;
+  }
 
-      .navbar {
-        flex-wrap: wrap;
-      }
+  .navbar {
+    flex-wrap: wrap;
+  }
 
-      .nav-menu {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background: #fff;
-        border-top: 2px solid #000;
-        margin-top: 10px;
-        padding: 20px 0;
-      }
+  /* 漢堡選單 */
+  .hamburger {
+    display: flex;
+  }
 
-      .nav-menu.show {
-        display: flex;
-      }
+  /* 整個選單（漢堡展開/收起） */
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: #fff;
+    border-top: 2px solid #000;
+    margin-top: 10px;
+    padding: 20px 0;
+    position: relative;
+    z-index: 1000;
+  }
 
-      .nav-item {
-        padding: 16px 20px;
-        border-bottom: 1px solid #ddd;
-      }
+  .nav-menu.show {
+    display: flex;
+  }
 
-      .dropdown {
-        position: static;
-        transform: none;
-        opacity: 1;
-        pointer-events: auto;
-        border: none;
-        border-radius: 0;
-        padding: 10px 20px;
-        flex-direction: column;
-        display: none;
-      }
+  .nav-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid #ddd;
+  }
 
-      .nav-item.open .dropdown {
-        display: block;
-      }
+  /* ✅ 手機版：所有 dropdown 永遠打開顯示，改成 block */
+  .dropdown {
+    position: static;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    border: none;
+    border-radius: 0;
+    padding: 10px 20px;
+    flex-direction: column;
+    display: block;   /* 原本如果是 display:none 一定會出問題 */
+  }
 
-      .hamburger {
-        display: flex;
-      }
+  /* 這段舊邏輯可以刪掉，不再用 nav-item.open 來控制顯示
+  .nav-item.open .dropdown {
+    display: block;
+  }
+  */
 
-      main {
-        padding: 20px;
-      }
+  main {
+    padding: 20px;
+  }
 
-      .main-layout {
-        flex-direction: column;
-      }
+  .main-layout {
+    flex-direction: column;
+  }
 
-      .row-grid {
-        flex-direction: column;
-      }
+  .row-grid {
+    flex-direction: column;
+  }
 
-      .creator-card {
-        position: static;
-        width: 100%;
-        margin-top: 20px;
-      }
-    }
+  .creator-card {
+    position: static;
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
   </style>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const hamburger = document.querySelector(".hamburger");
-      const navMenu = document.querySelector(".nav-menu");
-      const navItems = document.querySelectorAll(".nav-item");
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
 
-      if (hamburger) {
-        hamburger.addEventListener("click", () => {
-          navMenu.classList.toggle("show");
-        });
-      }
-
-      navItems.forEach(item => {
-        item.addEventListener("click", () => {
-          item.classList.toggle("open");
-        });
-      });
+  if (hamburger) {
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("show");
     });
+  }
+});
+
   </script>
 
 </head>
