@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <title>五D卡好工作室 | 關於我們</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-  <!-- 這裡如果之後要放 favicon 或 OG 資訊也可以加 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>五D卡好工作室 | 官方網站</title>
 
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Noto Sans HK', sans-serif;
       font-weight: 700;
+      font-family: 'Noto Sans HK', sans-serif;
     }
 
     body {
@@ -22,15 +23,10 @@
       color: #111;
     }
 
-    /* ================== 共用導覽列 ================== */
+    /* ====================== Header / 導覽列（桌機） ====================== */
     header {
       border-bottom: 3px solid #000;
       padding: 16px 60px 0;
-      background: #ffffff;
-      /* ★ 讓導覽列永遠在最上層、可點擊 */
-      position: sticky;
-      top: 0;
-      z-index: 9999;
     }
 
     .navbar {
@@ -60,14 +56,14 @@
       align-items: flex-end;
     }
 
-    /* 桌機版 nav */
+    /* 桌機版實際顯示的那一塊 */
     .nav-menu-desktop {
       display: flex;
       gap: 45px;
       align-items: flex-end;
     }
 
-    /* 手機版多頁選單容器（預設隱藏） */
+    /* 手機版專用容器（預設隱藏） */
     .nav-menu-mobile {
       display: none;
     }
@@ -98,13 +94,13 @@
       background: black;
     }
 
-    /* 下拉 */
+    /* 桌機版 dropdown：滑過才出現 */
     .dropdown {
       position: absolute;
       top: 80%;
       left: 50%;
       transform: translateX(-50%);
-      background: #fff;
+      background: white;
       border: 2px solid #000;
       border-radius: 16px;
       padding: 20px;
@@ -113,7 +109,7 @@
       opacity: 0;
       pointer-events: none;
       transition: 0.2s ease;
-      z-index: 1000;
+      z-index: 999;
     }
 
     .nav-item:hover .dropdown,
@@ -124,7 +120,7 @@
     }
 
     .dropdown-column {
-      min-width: 140px;
+      min-width: 130px;
     }
 
     .dropdown-title {
@@ -132,10 +128,10 @@
       margin-bottom: 8px;
     }
 
-    .dropdown-bigtitle {
-      font-size: 15px;
-      font-weight: 900;
-      margin: 12px 0 6px;
+    .dropdown-subtitle {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 10px 0 4px;
     }
 
     .dropdown-list a {
@@ -152,7 +148,7 @@
 
     .dropdown-link {
       display: block;
-      margin-top: 6px;
+      margin-top: 10px;
       text-decoration: none;
       color: #000;
     }
@@ -161,7 +157,7 @@
       text-decoration: underline;
     }
 
-    /* 漢堡按鈕 */
+    /* 漢堡（桌機隱藏） */
     .hamburger {
       width: 30px;
       height: 24px;
@@ -169,9 +165,6 @@
       justify-content: space-between;
       display: none;
       cursor: pointer;
-      /* ★ 讓按鈕永遠蓋在最上面可點 */
-      position: relative;
-      z-index: 10000;
     }
 
     .hamburger span {
@@ -180,153 +173,136 @@
       background: #000;
     }
 
-    /* ================== 首頁主版面 ================== */
-
+    /* ====================== 主內容（桌機） ====================== */
     main {
-      padding: 60px 40px 80px;
-    }
-
-    .main-layout {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* 關於我們區塊（可以依照你原本的內容再調） */
-
-    .about-section {
-      background: #e0e0e0;
-      border-radius: 24px;
-      padding: 40px 24px;
-      margin-bottom: 60px;
-    }
-
-    .about-tag-date {
-      display: inline-block;
-      background: #111;
-      color: #fff;
-      padding: 12px 32px;
-      border-radius: 999px;
-      font-size: 20px;
-      margin-bottom: 28px;
-    }
-
-    .about-title {
-      font-size: 40px;
-      font-weight: 900;
-      margin-bottom: 20px;
-      line-height: 1.2;
-    }
-
-    .about-title span.en {
-      font-size: 24px;
-      margin-left: 10px;
-    }
-
-    .about-text {
-      font-size: 18px;
-      line-height: 1.8;
-      margin-top: 12px;
-    }
-
-    /* 創作者區（示意，保留版型用） */
-
-    .creator-section {
-      margin-top: 40px;
-    }
-
-    .creator-section-title {
-      font-size: 36px;
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .creator-grid {
+      padding: 60px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
       justify-content: center;
     }
 
-    .creator-card {
-      width: 320px;
-      background: #fff;
-      border: 3px solid #b3b0b0;
-      border-radius: 20px;
-      padding: 30px 20px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+    .about-box {
+      width: 100%;
+      max-width: 1185px;
+      background: #969696;
+      border-radius: 26px;
+      padding: 80px;
+      position: relative;
+      min-height: 250px;
+      margin-top: 60px;
     }
 
-    .creator-avatar {
-      width: 150px;
-      height: 150px;
+    .title-wrap {
+      position: absolute;
+      top: -50px;
+      left: -5px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .title-pill {
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      display: inline-block;
+      color: inherit;
+    }
+
+    .title-image img {
+      display: block;
+      height: 100px;
+      width: auto;
+    }
+
+    .date-pill {
+      background: #000;
+      color: #fff;
+      padding: 1px 80px;
+      border-radius: 50px;
+      display: inline-block;
+      margin-top: 5px;
+      margin-left: 200px;
+      font-size: 35px;
+      font-weight: 900;
+      font-family: 'Anton', sans-serif;
+    }
+
+    .about-content {
+      margin-top: 120px;
+      font-size: 30px;
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    .about-content p {
+      margin: 0 0 15px;
+      font-family: 'Noto Sans HK', sans-serif;
+    }
+
+    /* 創作者區塊（灰底外面） */
+    .creator-title {
+      text-align: center;
+      font-size: 38px;
+      font-weight: 900;
+      margin-top: 40px;
+      margin-bottom: 30px;
+      font-family: 'Noto Sans TC', sans-serif;
+      letter-spacing: 2px;
+    }
+
+    .creator-section {
+      margin: 60px auto;
+      max-width: 1200px;
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+    }
+
+    .creator-link {
+      text-decoration: none;
+      color: inherit;
+      display: inline-block;
+    }
+
+    .creator {
+      text-align: center;
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 20px;
+      position: relative;
+      overflow: visible;
+    }
+
+    .creator img {
+      width: 140px;
+      height: 140px;
       object-fit: cover;
       border-radius: 50%;
-      border: 4px solid #fffefe;
+      border: 4px solid #ffffff;
       transition:
         transform 0.3s ease,
         border-radius 0.3s ease,
+        box-shadow 0.3s ease,
         object-fit 0.3s ease,
-        box-shadow 0.3s ease;
+        background-color 0.3s ease;
     }
 
-    .creator-avatar:hover {
-      transform: scale(1.5);
+    .creator:hover img {
+      transform: scale(1.7);
       border-radius: 16px;
       object-fit: contain;
-      background: #fff;
-      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.35);
+      background-color: #ffffff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      z-index: 2;
     }
 
-    .creator-name {
-      font-size: 26px;
-      font-weight: 900;
-      margin-top: 20px;
-    }
-
-    .creator-role {
-      font-size: 16px;
-      margin-bottom: 15px;
-      color: #444;
-    }
-
-    .creator-links p {
-      font-size: 14px;
-      margin: 4px 0;
-    }
-
-    .creator-links a {
-      color: #e3342f;
-      text-decoration: none;
-    }
-
-    .creator-links a:hover {
-      text-decoration: underline;
-    }
-
-    .commission-btn {
-      display: inline-block;
-      margin-top: 18px;
-      background: #e3342f;
-      color: white;
-      font-weight: 900;
-      padding: 10px 24px;
-      border-radius: 999px;
-      font-size: 18px;
-      text-decoration: none;
-      border: 3px solid #eee7e7;
-      transition: 0.2s;
-    }
-
-    .commission-btn:hover {
-      background: #ff4a4a;
-      transform: scale(1.05);
-    }
-
-    /* ================== 手機 RWD：多頁選單 ================== */
+    /* ====================== 手機版 RWD：跟 2D 頁面同款多頁側邊選單 ====================== */
     @media (max-width: 900px) {
+
       header {
-        padding: 12px 20px 0;
+        padding: 12px 20px;
+        position: relative;
+        z-index: 1000;
       }
 
       .navbar {
@@ -344,23 +320,23 @@
         display: none;
       }
 
+      /* nav-menu 把間距關掉，純容器而已 */
       .nav-menu {
         gap: 0;
       }
 
-      /* 手機專用全螢幕選單 */
+      /* 手機專用全螢幕選單（多頁） */
       .nav-menu-mobile {
         display: none;
         position: fixed;
         left: 0;
         right: 0;
-        top: 64px;
+        top: 64px; /* 大約 header 高度 */
         bottom: 0;
         background: #ffffff;
         padding: 20px 18px 32px;
         border-top: 2px solid #000;
-        /* ★ 讓選單也蓋在內容上 */
-        z-index: 9998;
+        z-index: 999;
         flex-direction: column;
       }
 
@@ -378,6 +354,7 @@
         display: flex;
       }
 
+      /* 第一層主選單 */
       .mobile-main-list {
         list-style: none;
         padding: 0;
@@ -411,6 +388,7 @@
         width: 100%;
       }
 
+      /* 第二層子選單 header + body */
       .mobile-menu-header {
         display: flex;
         align-items: center;
@@ -460,47 +438,135 @@
         text-decoration: underline;
       }
 
+      /* ====== 首頁自己的 RWD（灰框 + 文字） ====== */
       main {
-        padding: 24px 16px 60px;
+        padding: 20px;
       }
 
-      .about-section {
-        padding: 32px 18px;
+      .about-box {
+        padding: 30px 20px;
+        min-height: 300px;
+        margin-top: 40px;
       }
 
-      .about-title {
-        font-size: 32px;
+      .title-wrap {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
       }
 
-      .creator-section-title {
-        font-size: 30px;
+      .title-image img {
+        height: 60px;
+        width: auto;
       }
 
-      .creator-card {
-        width: 100%;
-        max-width: 420px;
+      .date-pill {
+        background: #000;
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 50px;
+        display: inline-block;
+        margin-top: 4px;
+        margin-left: 12px;
+        font-size: 22px;
+        font-weight: 900;
+        font-family: 'Anton', sans-serif;
+      }
+
+      .about-content {
+        margin-top: 10px;
+        font-size: 20px;
+      }
+
+      .creator-section {
+        flex-direction: column;
+        gap: 32px;
+        align-items: center;
       }
     }
   </style>
+
+  <!-- 手機版 JS（跟 2D 頁面一樣的多頁選單邏輯） -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.querySelector(".hamburger");
+      const mobileMenu = document.querySelector(".nav-menu-mobile");
+      const panels = document.querySelectorAll(".mobile-menu-panel");
+
+      // 顯示指定的 panel（main / sub-commission / sub-creators）
+      function showPanel(id) {
+        panels.forEach(p => {
+          p.classList.toggle("active", p.id === id);
+        });
+      }
+
+      if (mobileMenu && panels.length > 0) {
+        showPanel("mobile-main-menu");
+      }
+
+      // 漢堡：打開 / 關閉整個手機選單
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener("click", () => {
+          const isOpen = mobileMenu.classList.toggle("show");
+          if (isOpen) {
+            showPanel("mobile-main-menu");
+          }
+        });
+      }
+
+      // 第一層：委託列表 / 創作者列表 按鈕 → 進入對應子選單
+      document.querySelectorAll(".mobile-main-button[data-target]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          if (targetId) {
+            showPanel(targetId);
+          }
+        });
+      });
+
+      // 子選單上的返回按鈕 → 回到主選單
+      document.querySelectorAll(".mobile-back").forEach(btn => {
+        btn.addEventListener("click", () => {
+          showPanel("mobile-main-menu");
+        });
+      });
+
+      // 點任何子選單裡的連結 → 關掉選單（自然跳頁）
+      if (mobileMenu) {
+        mobileMenu.querySelectorAll("a").forEach(a => {
+          a.addEventListener("click", () => {
+            mobileMenu.classList.remove("show");
+          });
+        });
+      }
+    });
+  </script>
 </head>
 
 <body>
+
+  <!-- ================== Header 導覽列 ================== -->
   <header>
     <div class="navbar">
       <div class="logo">
-        <!-- 你的 logo 路徑照原本放 -->
         <a href="index.html">
           <img src="image/logo.png" alt="五D卡好工作室 Logo">
         </a>
       </div>
 
-      <!-- 漢堡按鈕（手機版） -->
+      <!-- 漢堡（手機用） -->
       <div class="hamburger">
         <span></span><span></span><span></span>
       </div>
 
       <div class="nav-menu">
-        <!-- ========= 桌機版選單 ========= -->
+
+        <!-- ========= 桌機版選單（跟原本內容一樣） ========= -->
         <div class="nav-menu-desktop">
           <!-- 1. 委託列表 -->
           <div class="nav-item">
@@ -562,14 +628,15 @@
             </div>
           </div>
 
-          <!-- 3. 關於工作室（目前頁面：加 active） -->
-          <div class="nav-item active">
+          <!-- 3. 關於工作室 -->
+          <div class="nav-item">
             <a href="index.html" class="nav-main-link">關於工作室</a>
           </div>
         </div>
 
-        <!-- ========= 手機版多頁選單 ========= -->
+        <!-- ========= 手機版選單（多頁式，跟 2D 同款） ========= -->
         <div class="nav-menu-mobile">
+
           <!-- 第一頁：主選單 -->
           <div class="mobile-menu-panel active" id="mobile-main-menu">
             <ul class="mobile-main-list">
@@ -636,131 +703,60 @@
               </ul>
             </div>
           </div>
-        </div><!-- nav-menu-mobile -->
 
-      </div><!-- nav-menu -->
+        </div>
+      </div>
+
     </div>
   </header>
 
+  <!-- ================== 主內容 ================== -->
   <main>
-    <div class="main-layout">
-
-      <!-- 這裡照你的版面做一個 About 區塊，文字你可以再調整 -->
-      <section class="about-section">
-        <div class="about-tag-date">2025.11.09</div>
-        <h1 class="about-title">
-          關於我們
-          <span class="en">About</span>
-        </h1>
-        <p class="about-text">
-          五D卡好工作室成立於 2025 年。<br />
-          我們提供 2D、3D、美術、動畫等委託服務，<br />
-          致力於讓所有委託者獲得高品質與專業的作品。
-        </p>
-      </section>
-
-      <!-- 創作者區：這裡只是範例，實際可以依照你原本首頁的創作者區替換 -->
-      <section class="creator-section">
-        <h2 class="creator-section-title">創作者區</h2>
-
-        <div class="creator-grid">
-          <!-- 飛天蘋果派 -->
-          <article class="creator-card">
-            <img src="image/亞庭/image.png" alt="飛天蘋果派" class="creator-avatar">
-            <h3 class="creator-name">飛天蘋果派</h3>
-            <p class="creator-role">2D Illustrator</p>
-
-            <div class="creator-links">
-              <p>Facebook：<a href="#" target="_blank">連結</a></p>
-              <p>Email：82614kelly@gmail.com</p>
-            </div>
-
-            <a href="2d-commission YATING.html" class="commission-btn">我想委託</a>
-          </article>
-
-          <!-- 雪碧 -->
-          <article class="creator-card">
-            <img src="image/雪碧/雪碧.png" alt="雪碧" class="creator-avatar">
-            <h3 class="creator-name">雪碧</h3>
-            <p class="creator-role">3D Artist</p>
-
-            <div class="creator-links">
-              <p>ArtStation：<a href="https://www.artstation.com/yu_0207" target="_blank">連結</a></p>
-              <p>Email：mipp8888@gmail.com</p>
-            </div>
-
-            <a href="3d-commission Sprite.html" class="commission-btn">我想委託</a>
-          </article>
-
-          <!-- Evrox KO -->
-          <article class="creator-card">
-            <img src="image/Evrox KO/Evrox KO.png" alt="Evrox KO" class="creator-avatar">
-            <h3 class="creator-name">Evrox KO</h3>
-            <p class="creator-role">3D Artist</p>
-
-            <div class="creator-links">
-              <p>ArtStation：<a href="https://www.artstation.com/pko7" target="_blank">連結</a></p>
-              <p>Email：Lucas266518058@gmail.com</p>
-            </div>
-
-            <a href="3d-commissioneko.html" class="commission-btn">我想委託</a>
-          </article>
+    <div class="about-box">
+      <div class="title-wrap">
+        <div class="title-pill title-image">
+          <img src="image/Adobe Express - file.png" alt="關於我們 About">
         </div>
-      </section>
+        <div class="date-pill">2025.11.09</div>
+      </div>
 
-      <!-- 如果你首頁還有其他區塊（例如最新消息、服務流程）就接在這裡 -->
-
+      <div class="about-content">
+        <p>五D卡好工作室成立於 2025 年。</p>
+        <p>我們提供 2D、3D、美術、動畫服務。</p>
+        <p>致力於讓所有委託者獲得高品質與專業的作品。</p>
+      </div>
     </div>
   </main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const hamburger = document.querySelector(".hamburger");
-      const mobileMenu = document.querySelector(".nav-menu-mobile");
-      const panels = document.querySelectorAll(".mobile-menu-panel");
+  <!-- 創作者區 -->
+  <h2 class="creator-title">創作者區</h2>
+  <div class="creator-section">
 
-      function showPanel(id) {
-        panels.forEach(p => {
-          p.classList.toggle("active", p.id === id);
-        });
-      }
+    <a href="2d-commission YATING.html" class="creator-link">
+      <div class="creator">
+        <img src="image/亞庭/飛天蘋果派.png" alt="飛天蘋果派">
+        <p>飛天蘋果派</p>
+        <p>2D</p>
+      </div>
+    </a>
 
-      if (mobileMenu && panels.length > 0) {
-        showPanel("mobile-main-menu");
-      }
+    <a href="3d-commission Sprite.html" class="creator-link">
+      <div class="creator">
+        <img src="image/雪碧/雪碧.png" alt="雪碧">
+        <p>雪碧</p>
+        <p>3D</p>
+      </div>
+    </a>
 
-      if (hamburger && mobileMenu) {
-        hamburger.addEventListener("click", () => {
-          const isOpen = mobileMenu.classList.toggle("show");
-          if (isOpen) {
-            showPanel("mobile-main-menu");
-          }
-        });
-      }
+    <a href="3d-commissioneko.html" class="creator-link">
+      <div class="creator">
+        <img src="image/Evrox KO/Evrox KO.png" alt="Evrox KO">
+        <p>Evrox KO</p>
+        <p>3D</p>
+      </div>
+    </a>
 
-      document.querySelectorAll(".mobile-main-button[data-target]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const targetId = btn.getAttribute("data-target");
-          if (targetId) {
-            showPanel(targetId);
-          }
-        });
-      });
+  </div>
 
-      document.querySelectorAll(".mobile-back").forEach(btn => {
-        btn.addEventListener("click", () => {
-          showPanel("mobile-main-menu");
-        });
-      });
-
-      if (mobileMenu) {
-        mobileMenu.querySelectorAll("a").forEach(a => {
-          a.addEventListener("click", () => {
-            mobileMenu.classList.remove("show");
-          });
-        });
-      }
-    });
-  </script>
 </body>
 </html>

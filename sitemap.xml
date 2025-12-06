@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <!-- 首頁 -->
   <url>
     <loc>https://iso1546.github.io/5DGOOD/</loc>
     <changefreq>weekly</changefreq>
   </url>
-
   <url>
     <loc>https://iso1546.github.io/5DGOOD/index.html</loc>
     <changefreq>weekly</changefreq>
@@ -17,7 +15,6 @@
     <loc>https://iso1546.github.io/5DGOOD/2d-commission.html</loc>
     <changefreq>weekly</changefreq>
   </url>
-
   <url>
     <loc>https://iso1546.github.io/5DGOOD/2d-commission%20YATING.html</loc>
     <changefreq>weekly</changefreq>
@@ -28,15 +25,12 @@
     <loc>https://iso1546.github.io/5DGOOD/3d-commission.html</loc>
     <changefreq>weekly</changefreq>
   </url>
-
   <url>
     <loc>https://iso1546.github.io/5DGOOD/3d-commission%20Sprite.html</loc>
     <changefreq>weekly</changefreq>
   </url>
-
   <url>
     <loc>https://iso1546.github.io/5DGOOD/3d-commissioneko.html</loc>
     <changefreq>weekly</changefreq>
   </url>
-
 </urlset>
