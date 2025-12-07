@@ -376,49 +376,56 @@
 
     /* ================== 手機 RWD：多頁選單 + 名片放大 ================== */
     @media (max-width: 900px) {
-      header {
-        padding: 12px 20px;
-        position: relative;
-        z-index: 1000;
-      }
 
-      .navbar {
-        align-items: center;
-      }
+  header {
+    padding: 12px 16px 10px;
+    position: relative;
+    z-index: 1000;
+  }
 
-      /* 顯示漢堡 */
-      .hamburger {
-        display: flex;
-        margin-left: auto;
-      }
+  .navbar {
+    align-items: center;
+  }
 
-      /* 桌機 nav 在手機藏起來 */
-      .nav-menu-desktop {
-        display: none;
-      }
+  /* 手機版 Logo 變小一點 */
+  .logo img {
+    height: 54px;
+  }
 
-      .nav-menu {
-        gap: 0;
-      }
+  /* 手機版漢堡顯示 + 往下移一點對齊 Logo 中間 */
+  .hamburger {
+    display: flex;
+    margin-left: auto;
+    margin-top: 4px;
+  }
 
-      /* 手機專用全螢幕選單 */
-      .nav-menu-mobile {
-        display: none;
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 64px;
-        bottom: 0;
-        background: #ffffff;
-        padding: 20px 18px 32px;
-        border-top: 2px solid #000;
-        z-index: 999;
-        flex-direction: column;
-      }
+  /* 桌機選單在手機隱藏 */
+  .nav-menu-desktop {
+    display: none;
+  }
 
-      .nav-menu-mobile.show {
-        display: flex;
-      }
+  .nav-menu {
+    gap: 0;
+  }
+
+  /* 手機全螢幕選單位置，要一起統一 */
+  .nav-menu-mobile {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 72px;      /* 對應上面的 header 高度，避免被蓋到 */
+    bottom: 0;
+    background: #ffffff;
+    padding: 20px 18px 32px;
+    border-top: 2px solid #000;
+    z-index: 999;
+    flex-direction: column;
+  }
+
+  .nav-menu-mobile.show {
+    display: flex;
+  }
 
       .mobile-menu-panel {
         flex: 1;
@@ -542,55 +549,61 @@
     }
   </style>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const hamburger = document.querySelector(".hamburger");
-      const mobileMenu = document.querySelector(".nav-menu-mobile");
-      const panels = document.querySelectorAll(".mobile-menu-panel");
+ <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.querySelector(".hamburger");
+    const mobileMenu = document.querySelector(".nav-menu-mobile");
+    const panels = document.querySelectorAll(".mobile-menu-panel");
 
-      function showPanel(id) {
-        panels.forEach(p => {
-          p.classList.toggle("active", p.id === id);
-        });
-      }
-
-      if (mobileMenu && panels.length > 0) {
-        showPanel("mobile-main-menu");
-      }
-
-      if (hamburger && mobileMenu) {
-        hamburger.addEventListener("click", () => {
-          const isOpen = mobileMenu.classList.toggle("show");
-          if (isOpen) {
-            showPanel("mobile-main-menu");
-          }
-        });
-      }
-
-      document.querySelectorAll(".mobile-main-button[data-target]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const targetId = btn.getAttribute("data-target");
-          if (targetId) {
-            showPanel(targetId);
-          }
-        });
+    // 顯示指定的 panel（main / sub-commission / sub-creators）
+    function showPanel(id) {
+      panels.forEach(p => {
+        p.classList.toggle("active", p.id === id);
       });
+    }
 
-      document.querySelectorAll(".mobile-back").forEach(btn => {
-        btn.addEventListener("click", () => {
+    if (mobileMenu && panels.length > 0) {
+      showPanel("mobile-main-menu");
+    }
+
+    // 漢堡：打開 / 關閉整個手機選單
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener("click", () => {
+        const isOpen = mobileMenu.classList.toggle("show");
+        if (isOpen) {
           showPanel("mobile-main-menu");
+        }
+      });
+    }
+
+    // 第一層：委託列表 / 創作者列表 按鈕 → 進入對應子選單
+    document.querySelectorAll(".mobile-main-button[data-target]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-target");
+        if (targetId) {
+          showPanel(targetId);
+        }
+      });
+    });
+
+    // 子選單上的返回按鈕 → 回到主選單
+    document.querySelectorAll(".mobile-back").forEach(btn => {
+      btn.addEventListener("click", () => {
+        showPanel("mobile-main-menu");
+      });
+    });
+
+    // 點任何子選單裡的連結 → 關掉選單（自然跳頁）
+    if (mobileMenu) {
+      mobileMenu.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", () => {
+          mobileMenu.classList.remove("show");
         });
       });
+    }
+  });
+</script>
 
-      if (mobileMenu) {
-        mobileMenu.querySelectorAll("a").forEach(a => {
-          a.addEventListener("click", () => {
-            mobileMenu.classList.remove("show");
-          });
-        });
-      }
-    });
-  </script>
 </head>
 
 <body>
@@ -602,6 +615,7 @@
       </a>
     </div>
 
+    <!-- 漢堡（手機用） -->
     <div class="hamburger">
       <span></span><span></span><span></span>
     </div>
@@ -676,8 +690,9 @@
         </div>
       </div>
 
-      <!-- ========= 手機版多頁選單 ========= -->
+      <!-- ========= 手機版選單（多頁式） ========= -->
       <div class="nav-menu-mobile">
+
         <!-- 第一頁：主選單 -->
         <div class="mobile-menu-panel active" id="mobile-main-menu">
           <ul class="mobile-main-list">
@@ -744,11 +759,13 @@
             </ul>
           </div>
         </div>
-      </div><!-- nav-menu-mobile -->
 
+      </div>
     </div>
+
   </div>
 </header>
+
 
 <main>
   <div class="main-layout">
