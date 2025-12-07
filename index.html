@@ -296,30 +296,30 @@
       z-index: 2;
     }
 
-    /* ====================== 手機版 RWD：跟 2D 頁面同款多頁側邊選單 ====================== */
+    /* ====================== 手機版 RWD：多頁側邊選單 ====================== */
     @media (max-width: 900px) {
 
-      /* ✅ 讓 header & 漢堡固定在最上層，不會被灰色區塊擋住 */
+      /* 手機版 header 稍微往下、給 Logo + 漢堡更多高度 */
       header {
-        padding: 12px 20px;
-        position: sticky;   /* 會固定在畫面頂部 */
-        top: 0;
-        z-index: 9999;      /* 高於所有內容 */
-        background: #ffffff;
+        padding: 12px 16px 10px;
+        position: relative;
+        z-index: 1000;
       }
 
       .navbar {
         align-items: center;
       }
 
-      /* 顯示漢堡 */
+      /* 手機版：Logo 變小一點，避免和漢堡擠在一起被裁切 */
+      .logo img {
+        height: 60px;
+      }
+
+      /* 顯示漢堡，並略微往下移，讓它和 Logo 視覺中心對齊 */
       .hamburger {
         display: flex;
         margin-left: auto;
-        position: absolute;  /* 固定在 header 右上角 */
-        right: 20px;
-        top: 20px;
-        z-index: 10000;      /* 確保一定能點到 */
+        margin-top: 4px;
       }
 
       /* 桌機 nav 在手機藏起來 */
@@ -338,12 +338,12 @@
         position: fixed;
         left: 0;
         right: 0;
-        top: 64px; /* 大約 header 高度 */
+        top: 72px; /* 對應上面 header 高度，避免被蓋到 */
         bottom: 0;
         background: #ffffff;
         padding: 20px 18px 32px;
         border-top: 2px solid #000;
-        z-index: 9998;        /* 在內容上方，但在 header/漢堡下方 */
+        z-index: 999;
         flex-direction: column;
       }
 
@@ -498,7 +498,7 @@
     }
   </style>
 
-  <!-- 手機版 JS（跟 2D 頁面一樣的多頁選單邏輯） -->
+  <!-- 手機版 JS（多頁選單邏輯） -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const hamburger = document.querySelector(".hamburger");
